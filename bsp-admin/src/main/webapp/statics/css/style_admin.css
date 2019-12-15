@@ -1,0 +1,16 @@
+/*重写layer按钮样式*/
+.layui-layer-btn .layui-layer-btn0 {
+    border-color: #21639c !important;
+    background-color: #337ab7 !important;
+}
+[v-cloak] {
+    display: none;
+}
+::selection {
+    background: #000;
+    color: #fff;
+}
+::-moz-selection {
+    background: #70788d;
+    color: #fff;
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+	<link rel="stylesheet" href="../../statics/js/plugins/bootstrap/css/bootstrap.css" />
+	<link rel="stylesheet" href="../../statics/assets/font-awesome/css/font-awesome.css" />
+	<link rel="stylesheet" href="../../statics/js/plugins/bootstrap-table/bootstrap-table.css" />
+	<link rel="stylesheet" href="../../statics/js/plugins/bootstrapvalidator/css/bootstrapValidator.css" />
+	<link rel="stylesheet" href="../../statics/js/plugins/bootstrap-toggle/css/bootstrap-toggle.css" />
+	<link rel="stylesheet" href="../../statics/js/plugins/bootstrap-switch/css/bootstrap3/bootstrap-switch.css" />
+    <link rel="stylesheet" href="../../statics/css/style_admin.css">
+</head>
+<body>
+	
+	<div id="vue-app">
+		<div id="table-div" style="margin: 0px 10px;">
+			<table id="data-list"></table>
+		</div>
+		<div id="tab-toolbar" class="btn-group" role="group" >
+			<select @change="reload" v-model="status" class="form-control">
+				<option value="1" selected="selected">共享中</option>
+				<option value="2">已下架</option>
+				<option value="0">已关闭</option>
+				<option value="3">已删除</option>
+				<option value="4">全&emsp;部</option>
+			</select>
+		</div>
+
+	</div>
+
+
+	<script src="../../statics/js/jquery-3.3.1.js"></script>
+	<script src="../../statics/js/vue.js"></script>
+	<script src="../../statics/js/plugins/bootstrap/js/bootstrap.js"></script>
+	<script src="../../statics/js/plugins/bootstrap-table/bootstrap-table.js"></script>
+	<script src="../../statics/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+	<script src="../../statics/js/plugins/bootstrapvalidator/js/bootstrapValidator.js"></script>
+	<script src="../../statics/js/plugins/bootstrap-toggle/js/bootstrap-toggle.js"></script>
+	<script src="../../statics/js/plugins/bootstrap-switch/js/bootstrap-switch.js"></script>
+    <!-- layer -->
+    <script src="../../statics/js/plugins/layer/layer.js"></script>
+	<script src="../../statics/js/commons/common.js"></script>
+	<script src="../../statics/js/admin/loanableBook.js"></script>
+</body>
+</html>

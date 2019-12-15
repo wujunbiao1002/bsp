@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bsp.dao.AdministratorMapper" >
+  <resultMap id="BaseResultMap" type="com.bsp.entity.Administrator" >
+    <id column="a_uuid" property="aUuid" jdbcType="VARCHAR" />
+    <result column="a_id" property="aId" jdbcType="VARCHAR" />
+    <result column="a_password" property="aPassword" jdbcType="VARCHAR" />
+    <result column="a_name" property="aName" jdbcType="VARCHAR" />
+    <result column="a_phone" property="aPhone" jdbcType="VARCHAR" />
+    <result column="a_address" property="aAddress" jdbcType="VARCHAR" />
+    <result column="a_comments" property="aComments" jdbcType="VARCHAR" />
+    <result column="a_level" property="aLevel" jdbcType="INTEGER" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    a_uuid, a_id, a_password, a_name, a_phone, a_address, a_comments, a_level, is_delete
+  </sql>
+   <!-- 高级+分页查询的where语句块 -->
+  <sql id="where_of_query">
+	<where>
+		<if test="search!=null">AND (
+			a_uuid LIKE CONCAT('%',#{search},'%')
+			OR a_id LIKE CONCAT('%',#{search},'%')
+			OR a_name LIKE CONCAT('%',#{search},'%')
+			OR a_phone LIKE CONCAT('%',#{search},'%')
+		)
+		</if>
+	</where>
+  </sql>
+  <select id="getTotalCount" resultType="java.lang.Integer" parameterType="com.bsp.dto.QueryObject" >
+    select COUNT(*) from administrator 
+    <include refid="where_of_query" />
+  </select>
+  <select id="selectByQueryObject" resultMap="BaseResultMap" parameterType="com.bsp.dto.QueryObject" >
+    select
+	<include refid="Base_Column_List" />
+    from administrator
+    <include refid="where_of_query" />
+	<if test="sort!=null">
+		ORDER BY ${sort}
+		<if test="order!=null">${order}</if>
+	</if>
+    <if test="startIndex>-1">
+		LIMIT #{startIndex},#{limit}
+	</if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from administrator
+    where a_uuid = #{aUuid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByAID" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from administrator
+    where a_id = #{aid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from administrator
+    where a_uuid = #{aUuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bsp.entity.Administrator" >
+    insert into administrator (a_uuid, a_id, a_password, 
+      a_name, a_phone, a_address, 
+      a_comments, a_level, is_delete
+      )
+    values (#{aUuid,jdbcType=VARCHAR}, #{aId,jdbcType=VARCHAR}, #{aPassword,jdbcType=VARCHAR}, 
+      #{aName,jdbcType=VARCHAR}, #{aPhone,jdbcType=VARCHAR}, #{aAddress,jdbcType=VARCHAR}, 
+      #{aComments,jdbcType=VARCHAR}, #{aLevel,jdbcType=INTEGER}, #{isDelete,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bsp.entity.Administrator" >
+    insert into administrator
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="aUuid != null" >
+        a_uuid,
+      </if>
+      <if test="aId != null" >
+        a_id,
+      </if>
+      <if test="aPassword != null" >
+        a_password,
+      </if>
+      <if test="aName != null" >
+        a_name,
+      </if>
+      <if test="aPhone != null" >
+        a_phone,
+      </if>
+      <if test="aAddress != null" >
+        a_address,
+      </if>
+      <if test="aComments != null" >
+        a_comments,
+      </if>
+      <if test="aLevel != null" >
+        a_level,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="aUuid != null" >
+        #{aUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="aId != null" >
+        #{aId,jdbcType=VARCHAR},
+      </if>
+      <if test="aPassword != null" >
+        #{aPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="aName != null" >
+        #{aName,jdbcType=VARCHAR},
+      </if>
+      <if test="aPhone != null" >
+        #{aPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="aAddress != null" >
+        #{aAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="aComments != null" >
+        #{aComments,jdbcType=VARCHAR},
+      </if>
+      <if test="aLevel != null" >
+        #{aLevel,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bsp.entity.Administrator" >
+    update administrator
+    <set >
+      <if test="aId != null" >
+        a_id = #{aId,jdbcType=VARCHAR},
+      </if>
+      <if test="aPassword != null" >
+        a_password = #{aPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="aName != null" >
+        a_name = #{aName,jdbcType=VARCHAR},
+      </if>
+      <if test="aPhone != null" >
+        a_phone = #{aPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="aAddress != null" >
+        a_address = #{aAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="aComments != null" >
+        a_comments = #{aComments,jdbcType=VARCHAR},
+      </if>
+      <if test="aLevel != null" >
+        a_level = #{aLevel,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+    </set>
+    where a_uuid = #{aUuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bsp.entity.Administrator" >
+    update administrator
+    set a_id = #{aId,jdbcType=VARCHAR},
+      a_password = #{aPassword,jdbcType=VARCHAR},
+      a_name = #{aName,jdbcType=VARCHAR},
+      a_phone = #{aPhone,jdbcType=VARCHAR},
+      a_address = #{aAddress,jdbcType=VARCHAR},
+      a_comments = #{aComments,jdbcType=VARCHAR},
+      a_level = #{aLevel,jdbcType=INTEGER},
+      is_delete = #{isDelete,jdbcType=TINYINT}
+    where a_uuid = #{aUuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

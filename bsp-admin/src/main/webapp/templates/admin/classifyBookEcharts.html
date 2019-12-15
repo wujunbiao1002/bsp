@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../statics/js/jquery-3.3.1.js"></script>
+    <script src="../../statics/js/echarts.js"></script>
+    <script src="../../statics/js/admin/indexEcharts.js"></script>
+</head>
+<body>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 1000px;height:500px;"></div>
+
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+    var option = {
+        title: {
+            text: '各个分类共享书籍数量统计柱状图',
+        },
+        color: ['#3398DB'],
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                data : [],
+                axisTick: {
+                    alignWithLabel: true
+                }
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'册数',
+                type:'bar',
+                barWidth: '50%',
+                data:[]
+            }
+        ]
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+
+    // ["借阅申请","借阅者取消申请","借出人拒绝申请","申请超时","借出人同意借出","借出人逾期未送书"
+        // ,"借出人送到运营点","借阅者逾期未取书","借阅者取走书","借阅者逾期未还书","借阅者已还书","借出人捐赠","借出人取回书"]
+
+    myChart.showLoading();    //数据加载完之前先显示一段简单的loading动画
+    var departments = [];    //部门数组（用于横坐标）
+    var nums = [];            //员工数量数组（用于纵坐标）
+    $.ajax({
+        type: 'get',
+        url: '/echarts/classifyBookNum.do',//请求数据的地址
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.log(result)
+            //请求成功时执行该函数内容，result即为服务器返回的json对象
+            var name = [];
+            result.forEach((item, index)=>{
+                name.push(item.name)
+            })
+            myChart.hideLoading();    //隐藏加载动画
+            myChart.setOption({        //加载数据图表
+                /*legend: {
+                    data: departments
+                },*/
+                xAxis:{
+                    data:name
+                },
+                series: [{
+                    data: result
+                }]
+            });
+        },
+        error: function (errorMsg) {
+            //请求失败时执行该函数
+            alert("图表请求数据失败!");
+            myChart.hideLoading();
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bsp.dao.PrimaryClassificationMapper" >
+  <resultMap id="BaseResultMap" type="com.bsp.entity.PrimaryClassification" >
+    <id column="pc_id" property="pcId" jdbcType="INTEGER" />
+    <result column="pc_name" property="pcName" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    pc_id, pc_name, is_delete
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from primary_classification
+    where pc_id = #{pcId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from primary_classification
+    where is_delete=0
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from primary_classification
+    where pc_id = #{pcId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bsp.entity.PrimaryClassification" >
+    insert into primary_classification (pc_id, pc_name, is_delete
+      )
+    values (#{pcId,jdbcType=INTEGER}, #{pcName,jdbcType=VARCHAR}, #{isDelete,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bsp.entity.PrimaryClassification" >
+    insert into primary_classification
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pcId != null" >
+        pc_id,
+      </if>
+      <if test="pcName != null" >
+        pc_name,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pcId != null" >
+        #{pcId,jdbcType=INTEGER},
+      </if>
+      <if test="pcName != null" >
+        #{pcName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bsp.entity.PrimaryClassification" >
+    update primary_classification
+    <set >
+      <if test="pcName != null" >
+        pc_name = #{pcName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+    </set>
+    where pc_id = #{pcId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bsp.entity.PrimaryClassification" >
+    update primary_classification
+    set pc_name = #{pcName,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=TINYINT}
+    where pc_id = #{pcId,jdbcType=INTEGER}
+  </update>
+</mapper>

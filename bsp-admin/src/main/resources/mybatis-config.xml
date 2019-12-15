@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+
+<configuration>
+	<!-- 配置mybatis的默认运行模式 -->
+	<settings>
+		<!-- 全局启用或禁用延迟加载。当禁用时, 所有关联对象都会即时加载，默认值false -->
+		<setting name="lazyLoadingEnabled" value="true"/>
+		<!-- 当启用时, 有延迟加载属性的对象在被调用时将会完全加载任意属性。否则, 每种属性将会按需要加载。默认值true -->
+		<setting name="aggressiveLazyLoading" value="false"/>
+		<!-- Object对象上面的哪些方法触发延迟加载。默认值equals,clone,hashCode,toString -->
+		<setting name="lazyLoadTriggerMethods" value="clone"/>
+	</settings>
+	
+	<!-- 为类型添加别名 -->
+	<typeAliases>
+		<typeAlias type="org.mybatis.caches.ehcache.EhcacheCache" alias="Ehcache" />
+	</typeAliases>
+
+</configuration> 

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+	<link rel="stylesheet" href="../../statics/js/plugins/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="../../statics/assets/font-awesome/css/font-awesome.css" />
+	<link rel="stylesheet" href="../../statics/js/plugins/bootstrap-table/bootstrap-table.min.css" />
+	<link rel="stylesheet" href="../../statics/js/plugins/bootstrapvalidator/css/bootstrapValidator.min.css" />
+	<link rel="stylesheet" href="../../statics/js/plugins/bootstrap-toggle/css/bootstrap-toggle.min.css" />
+	<link rel="stylesheet" href="../../statics/js/plugins/bootstrap-switch/css/bootstrap3/bootstrap-switch.min.css" />
+    <link rel="stylesheet" href="../../statics/css/style_admin.css">
+</head>
+<body>
+	
+	<div id="vue-app">
+		<div id="table-div" style="margin: 0px 10px;">
+			<table id="data-list"></table>
+		</div>
+		<div id="tab-toolbar" class="btn-group" role="group" >
+			<button @click="openModal('')" type="button" class="btn btn-default btn-small" title="增加"><i class="fa fa-plus" aria-hidden="true"></i></button>
+		</div>
+		<!--模态框-->
+		<div id="input-modal" class="modal fade" tabindex="-1" role="dialog"  data-backdrop="static">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">{{obj.dobId?'编辑':'捐赠'}}</h4>
+					</div>
+					<div class="modal-body">
+						<form id="input-form"  class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">书名</label>
+								<div class="col-sm-10">
+									<input v-model="obj.dobName" name="name" class="form-control" placeholder="限250个字符"></input>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">ISBN</label>
+								<div class="col-sm-10">
+									<input v-model="obj.isbn" name="isbn" class="form-control" placeholder="限250个字符"></input>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">数量</label>
+								<div class="col-sm-10">
+									<input v-model="obj.number" name="number" class="form-control" placeholder="单位：册/套"></input>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">捐赠来源</label>
+								<div class="col-sm-10">
+									<input v-model="obj.source" name="source" class="form-control" placeholder="限250个字符"></input>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">捐赠人</label>
+								<div class="col-sm-10">
+									<input v-model="obj.donor" name="donor" class="form-control" placeholder="限250个字符"></input>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">联系方式</label>
+								<div class="col-sm-10">
+									<input v-model="obj.phone" name="phone" class="form-control" placeholder="限20个字符"></input>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">一级分类</label>
+								<div class="col-sm-10">
+									<select @change="loadSecondaryClassifications" v-model="pcId" class="form-control">
+										<option value="0">请选择</option>
+										<option v-for="item in primaryClassifications" :value="item.pcId">{{item.pcName}}</option>
+									</select>
+									<span class="text-danger">{{pcMsg}}</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">二级分类</label>
+								<div class="col-sm-10">
+									<select v-model="obj.secondaryClassification.scId" class="form-control">
+										<option value="0">请选择</option>
+										<option v-for="item in secondaryClassifications" :value="item.scId">{{item.scName}}</option>
+									</select>
+									<span class="text-danger">{{scMsg}}</span>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button id="submit-btn" type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> 取消</button>
+						<button v-show="obj.dobId" @click="update" type="button" class="btn btn-primary"><i class="fa fa-save" aria-hidden="true"></i> 保存</button>
+						<button v-show="!obj.dobId" @click="add" type="button" class="btn btn-primary"><i class="fa fa-save" aria-hidden="true"></i> 保存</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script src="../../statics/js/jquery-3.3.1.js"></script>
+	<script src="../../statics/js/vue.js"></script>
+	<script src="../../statics/js/plugins/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../../statics/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+	<script src="../../statics/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+	<script src="../../statics/js/plugins/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+	<script src="../../statics/js/plugins/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
+	<script src="../../statics/js/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+
+    <!-- layer -->
+    <script src="../../statics/js/plugins/layer/layer.js"></script>
+	<script src="../../statics/js/commons/common.js"></script>
+	<script src="../../statics/js/admin/donateBook.js"></script>
+</body>
+</html>

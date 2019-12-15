@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bsp.dao.DemandBookMapper" >
+  <resultMap id="BaseResultMap" type="com.bsp.entity.DemandBook" >
+    <id column="db_id" property="dbId" jdbcType="INTEGER" />
+    <result column="db_name" property="dbName" jdbcType="VARCHAR" />
+    <result column="db_author" property="dbAuthor" jdbcType="VARCHAR" />
+    <result column="db_publishing" property="dbPublishing" jdbcType="VARCHAR" />
+    <result column="isbn" property="isbn" jdbcType="VARCHAR" />
+    <result column="db_duratuin" property="dbDuratuin" jdbcType="INTEGER" />
+    <result column="db_number" property="dbNumber" jdbcType="INTEGER" />
+    <result column="image_path" property="imagePath" jdbcType="VARCHAR" />
+    <result column="db_comment" property="dbComment" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="open_demand_time" property="openDemandTime" jdbcType="TIMESTAMP" />
+    <result column="db_status" property="dbStatus" jdbcType="TINYINT" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    <association property="secondaryClassification" column="sc_id" javaType="SecondaryClassification" select="com.bsp.dao.SecondaryClassificationMapper.selectByPrimaryKey" />
+    <association property="user" column="uuid" javaType="User" select="com.bsp.dao.UserMapper.selectByPrimaryKey" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    db_id, db_name, db_author, db_publishing, isbn, db_duratuin, db_number, image_path, 
+    db_comment, phone, open_demand_time, db_status, is_delete, sc_id, uuid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from demand_book
+    where db_id = #{dbId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from demand_book
+    where db_id = #{dbId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bsp.entity.DemandBook" >
+    insert into demand_book (db_id, db_name, db_author, 
+      db_publishing, isbn, db_duratuin, 
+      db_number, image_path, db_comment, 
+      phone, open_demand_time, db_status, 
+      is_delete, sc_id, uuid
+      )
+    values (#{dbId,jdbcType=INTEGER}, #{dbName,jdbcType=VARCHAR}, #{dbAuthor,jdbcType=VARCHAR}, 
+      #{dbPublishing,jdbcType=VARCHAR}, #{isbn,jdbcType=VARCHAR}, #{dbDuratuin,jdbcType=INTEGER}, 
+      #{dbNumber,jdbcType=INTEGER}, #{imagePath,jdbcType=VARCHAR}, #{dbComment,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{openDemandTime,jdbcType=TIMESTAMP}, #{dbStatus,jdbcType=TINYINT}, 
+      #{isDelete,jdbcType=TINYINT}, #{secondaryClassification.scId,jdbcType=INTEGER}, #{user.uuid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bsp.entity.DemandBook" >
+    insert into demand_book
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dbId != null" >
+        db_id,
+      </if>
+      <if test="dbName != null" >
+        db_name,
+      </if>
+      <if test="dbAuthor != null" >
+        db_author,
+      </if>
+      <if test="dbPublishing != null" >
+        db_publishing,
+      </if>
+      <if test="isbn != null" >
+        isbn,
+      </if>
+      <if test="dbDuratuin != null" >
+        db_duratuin,
+      </if>
+      <if test="dbNumber != null" >
+        db_number,
+      </if>
+      <if test="imagePath != null" >
+        image_path,
+      </if>
+      <if test="dbComment != null" >
+        db_comment,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="openDemandTime != null" >
+        open_demand_time,
+      </if>
+      <if test="dbStatus != null" >
+        db_status,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="secondaryClassification.scId != null" >
+        sc_id,
+      </if>
+      <if test="user.uuid != null" >
+        uuid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dbId != null" >
+        #{dbId,jdbcType=INTEGER},
+      </if>
+      <if test="dbName != null" >
+        #{dbName,jdbcType=VARCHAR},
+      </if>
+      <if test="dbAuthor != null" >
+        #{dbAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="dbPublishing != null" >
+        #{dbPublishing,jdbcType=VARCHAR},
+      </if>
+      <if test="isbn != null" >
+        #{isbn,jdbcType=VARCHAR},
+      </if>
+      <if test="dbDuratuin != null" >
+        #{dbDuratuin,jdbcType=INTEGER},
+      </if>
+      <if test="dbNumber != null" >
+        #{dbNumber,jdbcType=INTEGER},
+      </if>
+      <if test="imagePath != null" >
+        #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="dbComment != null" >
+        #{dbComment,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="openDemandTime != null" >
+        #{openDemandTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dbStatus != null" >
+        #{dbStatus,jdbcType=TINYINT},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="secondaryClassification.scId != null" >
+        #{secondaryClassification.scId,jdbcType=INTEGER},
+      </if>
+      <if test="user.uuid != null" >
+        #{user.uuid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bsp.entity.DemandBook" >
+    update demand_book
+    <set >
+      <if test="dbName != null" >
+        db_name = #{dbName,jdbcType=VARCHAR},
+      </if>
+      <if test="dbAuthor != null" >
+        db_author = #{dbAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="dbPublishing != null" >
+        db_publishing = #{dbPublishing,jdbcType=VARCHAR},
+      </if>
+      <if test="isbn != null" >
+        isbn = #{isbn,jdbcType=VARCHAR},
+      </if>
+      <if test="dbDuratuin != null" >
+        db_duratuin = #{dbDuratuin,jdbcType=INTEGER},
+      </if>
+      <if test="dbNumber != null" >
+        db_number = #{dbNumber,jdbcType=INTEGER},
+      </if>
+      <if test="imagePath != null" >
+        image_path = #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="dbComment != null" >
+        db_comment = #{dbComment,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="openDemandTime != null" >
+        open_demand_time = #{openDemandTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dbStatus != null" >
+        db_status = #{dbStatus,jdbcType=TINYINT},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="secondaryClassification.scId != null" >
+        sc_id = #{secondaryClassification.scId,jdbcType=INTEGER},
+      </if>
+      <if test="user.uuid != null" >
+        uuid = #{user.uuid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where db_id = #{dbId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bsp.entity.DemandBook" >
+    update demand_book
+    set db_name = #{dbName,jdbcType=VARCHAR},
+      db_author = #{dbAuthor,jdbcType=VARCHAR},
+      db_publishing = #{dbPublishing,jdbcType=VARCHAR},
+      isbn = #{isbn,jdbcType=VARCHAR},
+      db_duratuin = #{dbDuratuin,jdbcType=INTEGER},
+      db_number = #{dbNumber,jdbcType=INTEGER},
+      image_path = #{imagePath,jdbcType=VARCHAR},
+      db_comment = #{dbComment,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      open_demand_time = #{openDemandTime,jdbcType=TIMESTAMP},
+      db_status = #{dbStatus,jdbcType=TINYINT},
+      is_delete = #{isDelete,jdbcType=TINYINT},
+      sc_id = #{secondaryClassification.scId,jdbcType=INTEGER},
+      uuid = #{user.uuid,jdbcType=VARCHAR}
+    where db_id = #{dbId,jdbcType=INTEGER}
+  </update>
+</mapper>

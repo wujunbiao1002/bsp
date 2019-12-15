@@ -1,0 +1,443 @@
+/* -----------------------------------
+Template:  Theme Name
+
+NOTE: This is Header style file. All Header related style included in this file.
+
+--------------------------------------*/
+.header-pos {
+  background: transparent none repeat scroll 0 0;
+  left: 0;
+  padding: 25px 15px 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 999;
+}
+.header-area{}
+.logo{padding-top: 35px;}
+.logo a{}
+.main-menu{
+
+margin: 25px 10px 0 0;
+position: relative;}
+.main-menu ul{}
+.main-menu ul li {
+  display: inline-block;
+  position: relative;
+}
+.main-menu ul li a{color: #2c2c2c;
+display: block;
+font-size: 13px;
+font-weight: 700;
+letter-spacing: 0;
+line-height: 30px;
+margin-right: 1px;
+padding: 20px 18px;
+position: relative;
+text-decoration: none;
+text-transform: uppercase;
+transition: all 300ms ease-in 0s;font-family: 'Raleway', sans-serif;}
+.main-menu ul li:hover > a,.main-menu ul li ul.submenu li a:hover,.main-menu ul li .mega-menu ul li a:hover{color:#ffae00}
+/* dropdown */
+.main-menu ul li ul.submenu {
+  background: #16171f none repeat scroll 0 0;
+  opacity: 0;
+  padding: 10px 0;
+  position: absolute;
+  text-align: left;
+  top: 150%;
+  transition: all 0.3s ease 0s;
+  visibility: hidden;
+  width: 200px;
+  z-index: 999;
+}
+.main-menu ul li:hover ul.submenu{visibility: visible;opacity: 1;top: 100%;}
+.main-menu ul li ul.submenu li {
+  display: block;
+}
+.main-menu ul li ul.submenu li a {
+  color: #f5f5f5;
+  font-weight: 500;
+  padding: 3px 18px;
+  text-transform: capitalize;
+}
+/* mega-menu */
+.main-menu ul li .mega-menu {
+  background: #16171f none repeat scroll 0 0;
+  opacity: 0;
+  padding: 25px 30px;
+  position: absolute;
+  right: -200px;
+  text-align: left;
+  top: 150%;
+  transition: all 0.3s ease 0s;
+  visibility: hidden;
+  width: 700px;
+  z-index: 999;
+}
+.main-menu ul li:hover .mega-menu{top:100%;opacity: 1;visibility: visible;}
+.main-menu ul li .mega-menu ul {
+  float: left;
+  padding-right: 30px;
+  width: 33.33%;
+}
+.main-menu ul li .mega-menu ul:last-child{padding-right:0;}
+.main-menu ul li .mega-menu ul li {
+  display: block;
+}
+.main-menu ul li .mega-menu ul li a {
+  color: #f5f5f5;
+  display: block;
+  font-weight: 400;
+  padding: 3px 0;
+  text-transform: uppercase;
+}
+.main-menu ul li .mega-menu ul li.mega-title a {
+  border-bottom: 1px solid #ddd;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+.main-menu ul li .mega-2-col{width:480px;}
+.main-menu ul li .mega-2-col ul{width:50%}
+.search-block-top {
+  margin-top: 25px;
+  position: relative;
+}
+.icon-search {
+  background: transparent none repeat scroll 0 0;
+  border: medium none;
+  color: #2c2c2c;
+  cursor: pointer;
+  display: block;
+  height: 70px;
+  line-height: 30px;
+  padding: 20px 0;
+  position: relative;
+  text-align: center;
+  width: 40px;
+}
+.icon-search::before {
+  color: #2c2c2c;
+  content: "";
+  font-family: FontAwesome;
+  font-size: 12px;
+}
+form#searchbox {
+  position: relative;
+}
+.button-search {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border: medium none;
+  font-size: 0;
+  padding: 0;
+  position: absolute;
+  right: 12px;
+  top: 9px;
+  z-index: 9;
+}
+.button-search::before {
+  color: #000;
+  content: "";
+  display: block;
+  font-family: "FontAwesome";
+  font-size: 14px;
+  text-align: center;
+  width: 100%;
+}
+form#searchbox input {
+  background: #fff none repeat scroll 0 0;
+  border: 1px solid #ebebeb;
+  color: #898989;
+  display: inline;
+  height: 40px;
+  padding: 10px;
+  position: relative;
+  top: 100%;
+  width: 300px;
+  z-index: 1;
+}
+.toogle-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  z-index: 9;
+}
+.shopping-cart > a:first-child {
+  color: #ffae00;
+  display: block;
+  font-size: 12px;
+  font-weight: normal;
+  padding: 0;
+  position: relative;
+  text-transform: uppercase;
+}
+.shopping-cart > a:first-child b {
+  color: #ffae00;
+  line-height: 30px;
+  padding-right: 5px;
+}
+.shopping-cart > a:first-child::before {
+  color: #2c2c2c;
+  content: "";
+  font-family: FontAwesome;
+  font-size: 12px;
+  line-height: 30px;
+  margin-right: 7px;
+  vertical-align: top;
+}
+.setting-menu{
+  display: inline-block;
+  margin: 45px 0 0 30px;
+  position: relative;
+}
+.icon-nav::after {
+  color: #2c2c2c;
+  content: "";
+  cursor: pointer;
+  display: block;
+  font-family: FontAwesome;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 30px;
+  vertical-align: middle;
+}
+.content-nav.toogle-content {
+  background: white none repeat scroll 0 0;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.39);
+  display: none;
+  padding: 8px;
+  position: absolute;
+  right: 0;
+  text-align: left;
+  top: 50px;
+  width: 170px;
+  z-index: 999;
+}
+div.current {
+  color: #797979;
+  cursor: pointer;
+  font-family: raleway;
+  font-weight: 700;
+  line-height: 40px;
+  padding: 0 15px;
+  text-shadow: none;
+}
+.content-nav{}
+.content-nav li {
+  color: #797979;
+  font-size: 12px;
+  line-height: 40px;
+}
+.content-nav li a {
+  color: #797979;
+  display: block;
+  font-family: raleway;
+  padding: 0 15px;
+}
+.shopping-cart {
+  padding-bottom: 20px;
+  position: relative;
+}
+.shopping-cart > ul {
+  background: #16171f none repeat scroll 0 0;
+  opacity: 0;
+  padding: 20px;
+  position: absolute;
+  right: 0;
+  top: 140%;
+  transition: all 0.3s ease 0s;
+  visibility: hidden;
+  width: 270px;
+  z-index: 9999;
+}
+.shopping-cart:hover ul{visibility:visible;opacity:1;top:100%}
+.shopping-cart ul li {
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.cart-img {
+  float: left;
+}
+.cart-content {
+  float: left;
+  padding-left: 15px;
+  text-align: left;
+}
+.cart-content h3 a {
+  color: #f5f5f5;
+  display: inline-block;
+  font-size: 13px;
+  line-height: 18px;
+}
+.cart-content h3 a:hover{color:#ffae00}
+.cart-content span {
+  display: block;
+  color: #f5f5f5;
+  margin-top: 5px;
+}
+.cart-del {
+  color: #f5f5f5;
+  cursor: pointer;
+  float: right;
+  font-size: 18px;
+  margin-top: 12px;
+}
+span.cart-price {
+color: #b37c44;
+font-family: Lato,sans-serif;
+font-weight: 700;
+}
+.shipping {
+  display: block;
+  overflow: hidden;
+}
+hr.shipping-border {
+  border-bottom: 1px solid #ccc;
+  border-top: 0 none;
+  margin: 10px 0;
+  padding: 0;
+}
+.shipping span {
+  color: #f5f5f5;
+  font-family: raleway;
+  font-weight: 700;
+}
+.shipping span.cart-price{font-family: Lato,sans-serif;}
+.checkout a {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border: 3px solid #b7b7b7;
+  color: #f5f5f5;
+  display: block;
+  font-size: 14px;
+  line-height: 30px;
+  margin-right: 0;
+  padding: 5px 0;
+  text-align: center;
+  text-transform: uppercase;
+}
+.checkout a:hover{border-color:#b37c44;color:#b37c44}
+.shopping-cart ul li:last-child{margin:0;}
+/* header-2 */
+.header-top-area {
+  border-bottom: 1px solid #e1e1e1;
+  line-height: 30px;
+}
+.header-pad {
+  padding: 0 115px;
+}
+.welcome-message {
+  margin-top: 15px;
+}
+header.header-2 {
+  padding: 0;
+}
+span.phone {
+  color: #2c2c2c;
+  display: inline-block;
+  margin-right: 30px;
+}
+.phone::before {
+  color: #2c2c2c;
+  content: "";
+  cursor: pointer;
+  display: block;
+  float: left;
+  font-family: FontAwesome;
+  font-size: 12px;
+  line-height: 30px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+ span.des {
+  color: #ffae00;
+  font-size: 13px;
+}
+.header-2 .icon-search {
+  height: inherit;
+  line-height: 30px;
+  padding: 0;
+}
+.menu-style-2 ul li:last-child a{padding-right:0;}
+/* header-black */
+.header-black {
+  background: #232222 none repeat scroll 0 0;
+  padding: 20px 100px;
+}
+.main-menu.menu-style-black {
+  margin-top: 0;
+}
+.menu-style-black ul li a {
+  color: #fff;
+}
+.menu-style-black ul li .mega-menu {
+  left: 0;
+  right: inherit;
+}
+.logo.logo-white {
+  padding-top: 17px;
+  text-align: center;
+}
+.header-black-right .icon-search {
+  height: 50px;
+  padding: 12px 0;
+}
+.header-black-right {
+  margin-top: 7px;
+}
+.header-black-right .icon-search::before {
+  color: #fff;
+}
+.header-black-right .shopping-cart > a:first-child::before {
+  color: #fff;
+}
+.header-black-right .icon-nav::after {
+  color: #fff;
+}
+header.header-4 {
+  padding: 30px 150px;
+}
+.menu-white ul li a {
+  color: #2c2c2c;
+}
+/* scroll-header */
+.header-area.scroll-header {
+  animation: 300ms ease-in-out 0s normal none 1 running fadeInDown;
+  background: rgba(255, 255, 255, 0.7) none repeat scroll 0 0 ;
+  left: 0;
+  margin: 0 auto;
+  padding: 0 15px;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 999;
+}
+.header-black.header-area.scroll-header{background:#232222 }
+.header-area.scroll-header .logo {
+  padding-top: 15px;
+}
+.header-area.scroll-header .search-block-top {
+  margin-top: 0;
+}
+.header-area.scroll-header .setting-menu {
+  margin: 0 0 0 30px;
+}
+.header-area.scroll-header .main-menu {
+  margin: 0 10px 0 0;
+}
+/* intelligent-header */
+.intelligent-header {
+  position: fixed;
+  width: 100%;
+  z-index: 999;
+}
+.headroom {
+    will-change: transform;
+    transition: transform 200ms linear;
+}
+.headroom--pinned {
+    transform: translateY(0%);
+}
+.headroom--unpinned {
+    transform: translateY(-100%);
+}

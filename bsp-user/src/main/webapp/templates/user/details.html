@@ -1,0 +1,314 @@
+﻿<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>肇庆学院图书共享平台</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- favicon
+    ============================================ -->
+    <link rel="shortcut icon" type="image/x-icon" href="../../statics/img/logo_bsp.png">
+
+    <!-- All css files are included here. -->
+    <!-- Bootstrap framework main css -->
+    <link rel="stylesheet" href="../../statics/assets/css/bootstrap.min.css">
+    <!-- This core.css file contents all plugings css file. -->
+    <link rel="stylesheet" href="../../statics/assets/css/core.css">
+    <!-- Theme shortcodes/elements style -->
+    <link rel="stylesheet" href="../../statics/assets/css/shortcode/shortcodes.css">
+    <!-- Theme main style -->
+    <link rel="stylesheet" href="../../statics/assets/style.css">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="../../statics/assets/css/responsive.css">
+    <!-- User style -->
+    <link rel="stylesheet" href="../../statics/assets/css/custom.css">
+	<link rel="stylesheet" href="../../statics/css/common_user.css">
+    <!-- Modernizr JS -->
+    <script src="../../statics/assets/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+	<!-- header start -->
+	<header v-cloak id="header-app" class="header-pos">
+		<div class="header-area header-middle">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-2 col-sm-3 col-xs-12">
+						<div class="logo">
+							<a href="/"><img src="../../statics/img/logo_bsp.png" alt="" /></a>
+						</div>
+					</div>
+					<div class="col-md-10 col-sm-9 col-xs-12 text-right xs-center">
+						<div class="main-menu display-inline hidden-sm hidden-xs">
+							<nav>
+								<ul>
+									<li><a href="/">首页</a></li>
+									<li><a href="/p/repository">图书检索</a></li>
+									<li v-show="login"><a href="/p/record">借阅记录</a></li>
+									<li v-show="login"><a href="/p/lended">借出记录</a></li>
+									<li v-show="login"><a href="/p/my_share">共享图书</a></li>
+									<li v-show="login"><a href="/p/my_share2">需求图书</a></li>
+									<li v-show="login"><a href="/p/message_center">消息<span v-show="msgNum"  id="msgNum" class="superscript">{{msgNum}}</span></a></li>
+									<li v-show="!login"><a href="/login">登录</a></li>
+									<li v-show="!login"><a href="/p/register">注册账号</a></li>
+								</ul>
+							</nav>
+						</div>
+						<div class="search-block-top display-inline">
+							<div class="icon-search"></div>
+							<div class="toogle-content">
+								<form action="javascript:doSearch()" id="searchbox">
+									<input v-model="search" type="text" placeholder="搜索图书" />
+									<button type="button" @click="doSearch" class="button-search"></button>
+								</form>
+							</div>
+						</div>
+						<div class="setting-menu display-inline">
+							<div class="icon-nav current"></div>
+							<ul class="content-nav toogle-content">
+								<li class="currencies-block-top">
+									<!--<div class="current"><b>My Account</b></div>-->
+									<ul>
+										<li v-show="login"><a href="/p/user_center">账户资料</a></li>
+										<li @click="logout"  v-show="login"><a href="javascript:;">退出登录</a></li>
+										<li v-show="!login"><a href="/login">登录</a></li>
+										<li v-show="!login"><a href="/p/register">注册账号</a></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="mobile-menu-area visible-sm visible-xs">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="mobile-menu">
+							<nav id="mobile-menu-active">
+								<ul>
+									<li><a href="/">首页</a></li>
+									<li><a href="/p/repository">图书检索</a></li>
+									<li v-show="login"><a href="/p/record">借阅记录</a></li>
+									<li v-show="login"><a href="/p/lended">借出记录</a></li>
+									<li v-show="login"><a href="/p/my_share">共享图书</a></li>
+									<li v-show="login"><a href="/p/my_share2">需求图书</a></li>
+									<li v-show="login"><a href="/p/message_center">消息<span v-show="msgNum" id="msgNum" class="mobile-superscript">{{msgNum}}</span></a></li>
+									<li v-show="!login"><a href="/login">登录</a></li>
+									<li v-show="!login"><a href="/p/register">注册账号</a></li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+<!-- header end -->
+<div  id="app" v-cloak>
+	<div class="space-custom"></div>
+	<!-- breadcrumb start -->
+	<div class="breadcrumb-area">
+		<div class="container">
+			<ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-home"></i></a></li>
+                <li><a href="/p/repository">图书检索</a></li>
+                <li class="active">图书详情</li>
+			</ol>
+		</div>
+	</div>
+	<!-- breadcrumb end -->
+	<!-- shop-area start -->
+	<div class="shop-area">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-7 col-md-6">
+					<div class="product-zoom">
+						<!-- Tab panes -->
+						<div class="tab-content">
+							<div class="tab-pane active" id="home">
+								<div class="pro-large-img">
+									<img :src="'/cover?imagePath='+datas.imagePath" style="width: 350px;" alt="" />
+									<!--<a class="popup-link" :href="'/cover?imagePath='+datas.imagePath" target="_blank">放大视图<i class="fa fa-search-plus" aria-hidden="true"></i></a>-->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-5 col-md-6">
+					<div class="product-details">
+						<h2 class="pro-d-title">{{datas.lbName}}</h2>
+						<div class="pro-ref">
+							<p>
+								<label>一级分类: </label>
+								<span>{{datas.secondaryClassification.primaryClassification.pcName}}</span>
+							</p>
+							<p>
+								<label>二级分类: </label>
+								<span>{{datas.secondaryClassification.scName}}</span>
+							</p>
+							<p>
+								<label>作者: </label>
+								<span>{{datas.lbAuthor}}</span>
+							</p>
+							<p>
+								<label>出版社: </label>
+								<span>{{datas.lbPublishing}}</span>
+							</p>
+							<p>
+								<label>ISBN: </label>
+								<span>{{datas.isbn}}</span>
+							</p>
+							<p>
+								<label>可借时长（天）: </label>
+								<span>{{datas.lbDuratuin}}</span>
+							</p>
+							<p>
+								<label>剩余（册/套）: </label>
+								<span>{{datas.left}}</span>
+							</p>
+							<p>
+								<label>累计借出: </label>
+								<span>{{datas.totalLending}}</span>
+							</p>
+							<p>
+								<label>所属用户: </label>
+								<span>{{datas.user.mail}}</span>
+							</p>
+							<!-- <p>
+								<label>共享者的联系电话: </label>
+								<span>{{datas.phone}}</span>
+							</p> -->
+						</div>
+						<!--<div class="short-desc">
+							<p>{{datas.lbComment}}</p>
+						</div>-->
+						<div class="box-quantity" v-if="datas.left!=0">
+							<button>
+								<a :href="'borrowed?lbId='+datas.lbId">借阅</a>
+							</button>
+						</div>
+						<div class="box-quantity" v-else>
+							<button>
+								<a class="cart" href="javascript:return false;" style="opacity: 0.2"><span>借阅</span></a>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- shop-area end -->
+	<!-- pro-info-area start -->
+	<div class="pro-info-area ptb-80">
+		<div class="container">
+			<div class="pro-info-box">
+				<!-- Nav tabs -->
+				<ul class="pro-info-tab" role="tablist">
+					<li class="active"><a href="#home3" data-toggle="tab">图书简介</a></li>
+					<li><a href="#profile3" data-toggle="tab">详细参数</a></li>
+					<!--<li><a href="#messages3" data-toggle="tab">Reviews</a></li>-->
+				</ul>
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div class="tab-pane active" id="home3">
+						<div class="pro-desc">
+							<p>{{datas.lbComment}}</p>
+						</div>
+					</div>
+					<div class="tab-pane" id="profile3">
+						<div class="pro-desc">
+							<table class="table-data-sheet">
+								<tbody>
+									<tr class="odd">
+										<td>书名</td>
+										<td>{{datas.lbName}}</td>
+									</tr>
+									<tr class="even">
+										<td>一级分类</td>
+										<td>{{datas.secondaryClassification.primaryClassification.pcName}}</td>
+									</tr>
+									<tr class="odd">
+										<td>二级分类</td>
+										<td>{{datas.secondaryClassification.scName}}</td>
+									</tr>
+									<tr class="even">
+										<td>作者</td>
+										<td>{{datas.lbAuthor}}</td>
+									</tr>
+									<tr class="odd">
+										<td>出版社</td>
+										<td>{{datas.lbPublishing}}</td>
+									</tr>
+									<tr class="even">
+										<td>ISBN</td>
+										<td>{{datas.isbn}}</td>
+									</tr>
+									<tr class="odd">
+										<td>可借时长（天）</td>
+										<td>{{datas.lbDuratuin}}</td>
+									</tr>
+									<tr class="even">
+										<td>剩余（册/套）</td>
+										<td>{{datas.left}}</td>
+									</tr>
+									<tr class="odd">
+										<td>累计借出</td>
+										<td>{{datas.totalLending}}</td>
+									</tr>
+									<tr class="even">
+										<td>所属用户</td>
+										<td>{{datas.user.mail}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane" id="messages3">
+						<div class="pro-desc">
+							<a href="#">Be the first to write your review!</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- pro-info-area end -->
+</div>
+
+
+
+
+    <!-- jquery latest version -->
+	<script src="../../statics/js/jquery-3.3.1.js"></script>
+	<script src="../../statics/assets/js/vendor/jquery-1.12.0.min.js"></script>
+	<script src="../../statics/js/vue.js"></script>
+	<script src="../../statics/js/commons/common.js"></script>
+
+	<script src="../../statics/js/user/bookdetails.js"></script>
+	<script src="../../statics/js/user/header.js"></script>
+    <!-- Bootstrap framework js -->
+    <script src="../../statics/assets/js/bootstrap.min.js"></script>
+    <!-- ajax-mail js -->
+    <script src="../../statics/assets/js/ajax-mail.js"></script>
+    <!-- owl.carousel js -->
+    <script src="../../statics/assets/js/owl.carousel.min.js"></script>
+    <!-- owl.carousel js -->
+    <script src="../../statics/assets/js/jquery-ui.min.js"></script>
+    <!-- jquery.nivo.slider js -->
+    <script src="../../statics/assets/js/jquery.nivo.slider.pack.js"></script>
+    <!-- All js plugins included in this file. -->
+    <script src="../../statics/assets/js/plugins.js"></script>
+    <!-- Main js file that contents all jQuery plugins activation. -->
+    <script src="../../statics/assets/js/main.js"></script>
+
+
+</body>
+
+</html>

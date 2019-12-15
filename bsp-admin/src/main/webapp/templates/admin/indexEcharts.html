@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../statics/js/jquery-3.3.1.js"></script>
+    <script src="../../statics/js/echarts.js"></script>
+    <script src="../../statics/js/admin/indexEcharts.js"></script>
+    <link rel="stylesheet" href="../../statics/js/plugins/bootstrap/css/bootstrap.css">
+</head>
+<body style="width: 1100px">
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<!-- Columns are always 50% wide, on mobile and desktop -->
+<div class="row">
+    <div class="col-xs-6" ><!-- 用户性别占比 -->
+        <div id="sexEcharts" style="width: 380px;height:300px;"></div>
+    </div>
+    <div class="col-xs-6" ><!-- 图书审核转态占比 -->
+        <div id="checkEcharts" style="width: 380px;height:300px;"></div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-6 col-md-6"><!-- 图书分享转态占比 -->
+        <div id="sharingEcharts" style="width: 380px;height:300px;"></div>
+    </div>
+    <div class="col-xs-6 col-md-6">
+        <div id="app66" style="width:380px;height:300px;">
+            <hr>
+            <strong style="padding: 25px; font-size: 25px">累计共享书籍：<i><span style="color: red" id="sharingNum"></span></i> 本</strong>
+            <hr>
+            <strong style="padding: 25px; font-size: 25px">累计获捐书籍：<i><span style="color: red" id="donatedNum"></span></i>   本</strong><hr>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    window.onload = read();
+
+    // 1.基于准备好的dom，初始化echarts实例
+    var sexEcharts = echarts.init(document.getElementById('sexEcharts'));
+    option = {
+        title: {
+            text: '用户性别占比统计',
+            subtext: '',
+            x: 'center'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'right',
+            data: []
+        },
+        series: [
+            {
+                name: '来源站内用户数',
+                type: 'pie',
+                radius: '50%',
+                center: ['50%', '60%'],
+                data: [],
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    sexEcharts.setOption(option);
+
+
+    // 2.基于准备好的dom，初始化echarts实例
+    var checkEcharts = echarts.init(document.getElementById('checkEcharts'));
+    option = {
+        title: {
+            text: '图书审核状态占比统计',
+            subtext: '',
+            x: 'center'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'right',
+            data: []
+        },
+        series: [
+            {
+                name: '来源站内申请共享的数据',
+                type: 'pie',
+                radius: '50%',
+                center: ['50%', '60%'],
+                data: [],
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    checkEcharts.setOption(option);
+
+
+    // 3.sharingEcharts基于准备好的dom，初始化echarts实例
+    var sharingEcharts = echarts.init(document.getElementById('sharingEcharts'));
+    option = {
+        title: {
+            text: '图书共享转态占比统计',
+            subtext: '',
+            x: 'center'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'right',
+            data: []
+        },
+        series: [
+            {
+                name: '来源站内共享图书的数据',
+                type: 'pie',
+                // radius: '50%',
+                 center: ['50%', '60%'],
+                radius: ['50%', '70%'],
+                data: [],
+                avoidLabelOverlap: false,
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        show: true,
+                        textStyle: {
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+            }
+        ]
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    sharingEcharts.setOption(option);
+</script>
+</body>
+</html>

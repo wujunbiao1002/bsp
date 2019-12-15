@@ -1,0 +1,9 @@
+{
+	"num": 4,
+	"messages": [
+		{"id":"50225","headerUrl":"/statics/assets/img/ui-danro.jpg","from":"管理员","timeStamp":1521960573561,"title":"这个标题超过12个字，所以会被截短","content":"这是消息文本内容"},
+		{"id":"50745","headerUrl":"/statics/assets/img/ui-sherman.jpg","from":"管理员","timeStamp":1521060573561,"title":"系统公告","content":"这是消息文本内容"},
+		{"id":"50412","headerUrl":"/statics/assets/img/ui-divya.jpg","from":"管理员","timeStamp":1520960573561,"title":"系统公告","content":"这是消息文本内容"},
+		{"id":"50415","headerUrl":"/statics/assets/img/ui-zac.jpg","from":"管理员","timeStamp":1501960573561,"title":"系统公告","content":"这是消息文本内容"}
+	]
+}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+	<link rel="stylesheet" href="../../statics/js/plugins/bootstrap/css/bootstrap.css" />
+	<link rel="stylesheet" href="../../statics/assets/font-awesome/css/font-awesome.css" />
+	<link rel="stylesheet" href="../../statics/js/plugins/bootstrap-table/bootstrap-table.css" />
+	<link rel="stylesheet" href="../../statics/js/plugins/bootstrapvalidator/css/bootstrapValidator.css" />
+	<link rel="stylesheet" href="../../statics/js/plugins/bootstrap-toggle/css/bootstrap-toggle.css" />
+	<link rel="stylesheet" href="../../statics/js/plugins/bootstrap-switch/css/bootstrap3/bootstrap-switch.css" />
+    <link rel="stylesheet" href="../../statics/css/style_admin.css">
+</head>
+<body>
+	
+	<div id="vue-app">
+		<div id="table-div" style="margin: 0px 10px;">
+			<table id="data-list"></table>
+		</div>
+		<div id="tab-toolbar" class="btn-group" role="group" >
+			<select @change="reload" v-model="status" class="form-control">
+				<option value="0" selected="selected">进行中</option>
+				<option value="1" selected="selected">异&emsp;常</option>
+				<option value="2">已结束</option>
+				<option value="3">全&emsp;部</option>
+			</select>
+		</div>
+
+		<!--消息发送-->
+		<div id="input-modal" class="modal fade" tabindex="-1" role="dialog"  data-backdrop="static">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">发送消息</h4>
+					</div>
+					<div id="msg-input" class="modal-body ">
+                        <div class="radio form-group">
+                            <label class="checkbox-inline">
+                                <input v-model="msg.sendTo" type="radio" name="account" value="0" checked>
+                                借入方
+                            </label>
+                            <label class="checkbox-inline">
+                                <input v-model="msg.sendTo" type="radio" name="account" value="1">
+                                借出方
+                            </label>
+                        </div>
+						<div class="form-group">
+							<input v-model="msg.subject" name="subject" class="form-control" placeholder="主题，限20个字符"></input>
+						</div>
+						<div class="form-group">
+							<textarea style="resize:none" name="content" v-model="msg.content" class="form-control" rows="10" placeholder="正文，支持富文本（html），限1000个字符"></textarea>
+						</div>
+                        <span class="text-danger">{{inputMsg}}</span>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> 取消</button>
+						<button @click="sendMsg" id="btn-send" type="button" class="btn btn-primary"><i class="fa fa-send-o" aria-hidden="true"></i> 发送</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script src="../../statics/js/jquery-3.3.1.js"></script>
+	<script src="../../statics/js/plugins/bootstrap/js/bootstrap.js"></script>
+	<script src="../../statics/js/plugins/bootstrap-table/bootstrap-table.js"></script>
+	<script src="../../statics/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+	<script src="../../statics/js/plugins/bootstrapvalidator/js/bootstrapValidator.js"></script>
+	<script src="../../statics/js/plugins/bootstrap-toggle/js/bootstrap-toggle.js"></script>
+	<script src="../../statics/js/plugins/bootstrap-switch/js/bootstrap-switch.js"></script>
+	<!-- layer -->
+	<script src="../../statics/js/plugins/layer/layer.js"></script>
+	<script src="../../statics/js/vue.js"></script>
+	<script src="../../statics/js/commons/common.js"></script>
+	<script src="../../statics/js/admin/orderProccess.js"></script>
+</body>
+</html>

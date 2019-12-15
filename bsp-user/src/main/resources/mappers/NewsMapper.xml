@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bsp.dao.NewsMapper" >
+  <resultMap id="BaseResultMap" type="com.bsp.entity.News" >
+    <id column="n_id" property="nId" jdbcType="INTEGER" />
+    <result column="n_subject" property="nSubject" jdbcType="VARCHAR" />
+    <result column="news_time" property="newsTime" jdbcType="TIMESTAMP" />
+    <association property="user" column="uuid" javaType="User" select="com.bsp.dao.UserMapper.selectByPrimaryKey" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.bsp.entity.News" extends="BaseResultMap" >
+    <result column="n_content" property="nContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    n_id, n_subject, news_time, uuid
+  </sql>
+  <sql id="Blob_Column_List" >
+    n_content
+  </sql>
+  <select id="getNewMsgAmount" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select COUNT(*)
+    from news
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <select id="getTotalCount" resultType="java.lang.Integer" parameterType="com.bsp.dto.QueryObject" >
+    select COUNT(*)
+    from news
+    where uuid = #{search,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByQueryObject" resultMap="ResultMapWithBLOBs" parameterType="com.bsp.dto.QueryObject" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news
+    where uuid = #{search,jdbcType=VARCHAR}
+    ORDER BY news_time desc
+    <if test="startIndex>-1">
+		LIMIT #{startIndex},#{limit}
+	</if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news
+    where n_id = #{nId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByUserIdAndNid" parameterType="java.util.Map" >
+    delete from news
+    where n_id = #{nId,jdbcType=INTEGER} AND uuid = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from news
+    where n_id = #{nId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bsp.entity.News" >
+    insert into news (n_id, n_subject, news_time, 
+      uuid, n_content)
+    values (#{nId,jdbcType=INTEGER}, #{nSubject,jdbcType=VARCHAR}, #{newsTime,jdbcType=TIMESTAMP}, 
+      #{user.uuid,jdbcType=VARCHAR}, #{nContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bsp.entity.News" >
+    insert into news
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="nId != null" >
+        n_id,
+      </if>
+      <if test="nSubject != null" >
+        n_subject,
+      </if>
+      <if test="newsTime != null" >
+        news_time,
+      </if>
+      <if test="user.uuid != null" >
+        uuid,
+      </if>
+      <if test="nContent != null" >
+        n_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="nId != null" >
+        #{nId,jdbcType=INTEGER},
+      </if>
+      <if test="nSubject != null" >
+        #{nSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="newsTime != null" >
+        #{newsTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="user.uuid != null" >
+        #{user.uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="nContent != null" >
+        #{nContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bsp.entity.News" >
+    update news
+    <set >
+      <if test="nSubject != null" >
+        n_subject = #{nSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="newsTime != null" >
+        news_time = #{newsTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="user.uuid != null" >
+        uuid = #{user.uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="nContent != null" >
+        n_content = #{nContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where n_id = #{nId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bsp.entity.News" >
+    update news
+    set n_subject = #{nSubject,jdbcType=VARCHAR},
+      news_time = #{newsTime,jdbcType=TIMESTAMP},
+      uuid = #{user.uuid,jdbcType=VARCHAR},
+      n_content = #{nContent,jdbcType=LONGVARCHAR}
+    where n_id = #{nId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bsp.entity.News" >
+    update news
+    set n_subject = #{nSubject,jdbcType=VARCHAR},
+      news_time = #{newsTime,jdbcType=TIMESTAMP},
+      uuid = #{user.uuid,jdbcType=VARCHAR}
+    where n_id = #{nId,jdbcType=INTEGER}
+  </update>
+</mapper>

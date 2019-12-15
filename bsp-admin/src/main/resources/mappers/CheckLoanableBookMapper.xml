@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bsp.dao.CheckLoanableBookMapper" >
+  <resultMap id="BaseResultMap" type="com.bsp.entity.CheckLoanableBook" >
+    <id column="clb_id" property="clbId" jdbcType="INTEGER" />
+    <result column="clb_author" property="clbAuthor" jdbcType="VARCHAR" />
+    <result column="clb_name" property="clbName" jdbcType="VARCHAR" />
+    <result column="clb_publishing" property="clbPublishing" jdbcType="VARCHAR" />
+    <result column="isbn" property="isbn" jdbcType="VARCHAR" />
+    <result column="clb_duration" property="clbDuration" jdbcType="INTEGER" />
+    <result column="clb_number" property="clbNumber" jdbcType="INTEGER" />
+    <result column="image_path" property="imagePath" jdbcType="VARCHAR" />
+    <result column="clb_comment" property="clbComment" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="clb_status" property="clbStatus" jdbcType="TINYINT" />
+    <result column="failure_cause" property="failureCause" jdbcType="VARCHAR" />
+    <association property="secondaryClassification" column="sc_id" javaType="SecondaryClassification" select="com.bsp.dao.SecondaryClassificationMapper.selectByPrimaryKey" />
+    <association property="user" column="uuid" javaType="User" select="com.bsp.dao.UserMapper.selectByPrimaryKey" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    clb_id, clb_author, clb_name, clb_publishing, isbn, clb_duration, clb_number, image_path, 
+    clb_comment, phone, clb_status, failure_cause, sc_id, uuid
+  </sql>
+  <!-- 高级+分页查询的where语句块 -->
+  <sql id="where_of_query">
+	<where>
+		<if test="search!=null">AND (
+			clb_name LIKE CONCAT('%',#{search},'%')
+			OR isbn LIKE CONCAT('%',#{search},'%')
+			OR clb_author LIKE CONCAT('%',#{search},'%')
+			OR clb_publishing LIKE CONCAT('%',#{search},'%')
+		)
+		</if>
+		<if test="clbStatus!=null">AND clb_status=#{clbStatus}</if>
+	</where>
+  </sql>
+
+  <!-- 获取审核图书不同clb_status转态下的数量  by ：邬俊标-->
+  <select id="getNumByClbStatus" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+    select COUNT(*) from check_loanable_book
+    where clb_status = #{clbStatus,jdbcType=INTEGER}
+  </select>
+
+  <select id="getTotalCount" resultType="java.lang.Integer" parameterType="com.bsp.dto.LoanableBookQueryObject" >
+    select COUNT(*) from check_loanable_book 
+    <include refid="where_of_query" />
+  </select>
+  <select id="selectByQueryObject" resultMap="BaseResultMap" parameterType="com.bsp.dto.LoanableBookQueryObject" >
+    select
+	<include refid="Base_Column_List" />
+    from check_loanable_book
+    <include refid="where_of_query" />
+	<if test="sort!=null">
+		ORDER BY ${sort}
+		<if test="order!=null">${order}</if>
+	</if>
+    <if test="startIndex>-1">
+		LIMIT #{startIndex},#{limit}
+	</if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from check_loanable_book
+    where clb_id = #{clbId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from check_loanable_book
+    where clb_id = #{clbId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bsp.entity.CheckLoanableBook" >
+    insert into check_loanable_book (clb_id, clb_author, clb_name, 
+      clb_publishing, isbn, clb_duration, 
+      clb_number, image_path, clb_comment, 
+      phone, clb_status, failure_cause, 
+      sc_id, uuid)
+    values (#{clbId,jdbcType=INTEGER}, #{clbAuthor,jdbcType=VARCHAR}, #{clbName,jdbcType=VARCHAR}, 
+      #{clbPublishing,jdbcType=VARCHAR}, #{isbn,jdbcType=VARCHAR}, #{clbDuration,jdbcType=INTEGER}, 
+      #{clbNumber,jdbcType=INTEGER}, #{imagePath,jdbcType=VARCHAR}, #{clbComment,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{clbStatus,jdbcType=TINYINT}, #{failureCause,jdbcType=VARCHAR}, 
+     #{secondaryClassification.scId,jdbcType=INTEGER}, #{user.uuid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bsp.entity.CheckLoanableBook" >
+    insert into check_loanable_book
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="clbId != null" >
+        clb_id,
+      </if>
+      <if test="clbAuthor != null" >
+        clb_author,
+      </if>
+      <if test="clbName != null" >
+        clb_name,
+      </if>
+      <if test="clbPublishing != null" >
+        clb_publishing,
+      </if>
+      <if test="isbn != null" >
+        isbn,
+      </if>
+      <if test="clbDuration != null" >
+        clb_duration,
+      </if>
+      <if test="clbNumber != null" >
+        clb_number,
+      </if>
+      <if test="imagePath != null" >
+        image_path,
+      </if>
+      <if test="clbComment != null" >
+        clb_comment,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="clbStatus != null" >
+        clb_status,
+      </if>
+      <if test="failureCause != null" >
+        failure_cause,
+      </if>
+      <if test="secondaryClassification.scId != null" >
+        sc_id,
+      </if>
+      <if test="user.uuid != null" >
+        uuid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="clbId != null" >
+        #{clbId,jdbcType=INTEGER},
+      </if>
+      <if test="clbAuthor != null" >
+        #{clbAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="clbName != null" >
+        #{clbName,jdbcType=VARCHAR},
+      </if>
+      <if test="clbPublishing != null" >
+        #{clbPublishing,jdbcType=VARCHAR},
+      </if>
+      <if test="isbn != null" >
+        #{isbn,jdbcType=VARCHAR},
+      </if>
+      <if test="clbDuration != null" >
+        #{clbDuration,jdbcType=INTEGER},
+      </if>
+      <if test="clbNumber != null" >
+        #{clbNumber,jdbcType=INTEGER},
+      </if>
+      <if test="imagePath != null" >
+        #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="clbComment != null" >
+        #{clbComment,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="clbStatus != null" >
+        #{clbStatus,jdbcType=TINYINT},
+      </if>
+      <if test="failureCause != null" >
+        #{failureCause,jdbcType=VARCHAR},
+      </if>
+      <if test="secondaryClassification.scId != null" >
+       #{secondaryClassification.scId,jdbcType=INTEGER},
+      </if>
+      <if test="user.uuid != null" >
+        #{user.uuid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bsp.entity.CheckLoanableBook" >
+    update check_loanable_book
+    <set >
+      <if test="clbAuthor != null" >
+        clb_author = #{clbAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="clbName != null" >
+        clb_name = #{clbName,jdbcType=VARCHAR},
+      </if>
+      <if test="clbPublishing != null" >
+        clb_publishing = #{clbPublishing,jdbcType=VARCHAR},
+      </if>
+      <if test="isbn != null" >
+        isbn = #{isbn,jdbcType=VARCHAR},
+      </if>
+      <if test="clbDuration != null" >
+        clb_duration = #{clbDuration,jdbcType=INTEGER},
+      </if>
+      <if test="clbNumber != null" >
+        clb_number = #{clbNumber,jdbcType=INTEGER},
+      </if>
+      <if test="imagePath != null" >
+        image_path = #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="clbComment != null" >
+        clb_comment = #{clbComment,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="clbStatus != null" >
+        clb_status = #{clbStatus,jdbcType=TINYINT},
+      </if>
+      <if test="failureCause != null" >
+        failure_cause = #{failureCause,jdbcType=VARCHAR},
+      </if>
+      <if test="secondaryClassification.scId != null" >
+        sc_id =#{secondaryClassification.scId,jdbcType=INTEGER},
+      </if>
+      <if test="user.uuid != null" >
+        uuid = #{user.uuid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where clb_id = #{clbId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bsp.entity.CheckLoanableBook" >
+    update check_loanable_book
+    set clb_author = #{clbAuthor,jdbcType=VARCHAR},
+      clb_name = #{clbName,jdbcType=VARCHAR},
+      clb_publishing = #{clbPublishing,jdbcType=VARCHAR},
+      isbn = #{isbn,jdbcType=VARCHAR},
+      clb_duration = #{clbDuration,jdbcType=INTEGER},
+      clb_number = #{clbNumber,jdbcType=INTEGER},
+      image_path = #{imagePath,jdbcType=VARCHAR},
+      clb_comment = #{clbComment,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      clb_status = #{clbStatus,jdbcType=TINYINT},
+      failure_cause = #{failureCause,jdbcType=VARCHAR},
+      sc_id =#{secondaryClassification.scId,jdbcType=INTEGER},
+      uuid = #{user.uuid,jdbcType=VARCHAR}
+    where clb_id = #{clbId,jdbcType=INTEGER}
+  </update>
+</mapper>

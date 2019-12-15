@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+	<property name="APP_NAME" value="bsp" />
+	<property name="LOG_HOME" value="logs" />
+	
+	<contextName>${APP_NAME}</contextName>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<Target>System.out</Target>
+        <Encoding>UTF-8</Encoding>
+		<encoder> 
+			<pattern>%d{HH:mm:ss.SSS}:[%thread] %-5level %logger{36} - %msg%n</pattern>
+			<!-- <pattern>%%d{yyyy-MM-dd_HH:mm:ss.SSS} %5p [%t] [%c{1}]:%L - %m%n</pattern> -->
+		</encoder> 
+	</appender>
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender"> 
+		<Encoding>UTF-8</Encoding>
+		<!-- 配置滚动的策略 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> 
+			<!-- 日志名称的格式 -->
+			<fileNamePattern>${LOG_HOME}/%d{yyyy-MM-dd}.log</fileNamePattern> 
+			<!-- 保存的最长时间：天数 -->
+			<maxHistory>1</maxHistory> 
+		</rollingPolicy> 
+		<encoder> 
+			<pattern>[ %-5level] [%date{yyyy-MM-dd HH:mm:ss.SSS}] %logger{96} [%line] [%thread]- %msg%n</pattern> 
+		</encoder>
+	</appender>
+    
+    <!-- 指定项目中某个包，当有日志操作行为时的日志记录级别 -->
+    <!-- name指定根包，也就是只要是发生在这个根包下面的所有日志操作行为的权限都是INFO -->
+    <!-- 级别依次为【从高到低】：FATAL > ERROR > WARN > INFO > DEBUG > TRACE  -->
+
+	<!--DEBUG Level: 指出细粒度信息事件对调试应用程序是非常有帮助的,就是输出debug的信息.-->
+	<!--INFO level: 表明消息在粗粒度级别上突出强调应用程序的运行过程,就是输出提示信息.-->
+	<!--WARN level: 表明会出现潜在错误的情形,就是显示警告信息.-->
+	<!--ERROR level: 指出虽然发生错误事件,但仍然不影响系统的继续运行.就是显示错误信息.-->
+	<!--FATAL level: 指出每个严重的错误事件将会导致应用程序的退出.-->
+	<!--ALL level: 是最低等级的,用于打开所有日志记录.-->
+	<!--OFF level: 是最高等级的,用于关闭所有日志记录.-->
+	<logger name="com.bsp" level="DEBUG" />
+	<!--myibatis log configure-->
+	<!-- <logger name="com.ibatis" level="DEBUG" />
+	<logger name="com.ibatis.common.jdbc.SimpleDataSource" level="DEBUG" />  
+	<logger name="com.ibatis.common.jdbc.ScriptRunner" level="DEBUG" />  
+	<logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG" />  
+	<logger name="java.sql.Connection" level="DEBUG"/>
+	<logger name="java.sql.Statement" level="DEBUG"/>
+	<logger name="java.sql.PreparedStatement" level="DEBUG"/> -->
+	<!-- 相当于loger元素，只是name值已经确定为root了 -->
+	<root level="DEBUG"> 
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</root>
+	
+	<!-- show parameters for hibernate sql 专为 Hibernate 定制 -->
+	<!-- <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" />
+	<logger name="org.hibernate.type.descriptor.sql.BasicExtractor" level="DEBUG" />
+	<logger name="org.hibernate.SQL" level="DEBUG" />
+	<logger name="org.hibernate.engine.QueryParameters" level="DEBUG" />
+	<logger name="org.hibernate.engine.query.HQLQueryPlan" level="DEBUG" /> -->
+	
+	
+</configuration>

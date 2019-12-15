@@ -1,0 +1,193 @@
+[v-cloak] {
+    display: none;
+}
+
+.panel-heading, .panel-collapse a {
+    cursor:pointer !important;
+}
+
+/*表单输入框*/
+.data-input {
+    margin-bottom: 20px !important;
+    padding-bottom: 10px !important;
+}
+
+/*角标 */
+.mobile-superscript {
+    font-family: sans-serif;
+    height: 12px;
+    line-height: 12px;
+    color: #fff;
+    background-color: #f25d8e;
+    border-radius: 10px;
+    padding: 1px 2px;
+    font-size: 12px;
+    min-width: 16px;
+    z-index: 30;
+    text-align: center;
+}
+
+/*角标 */
+.superscript{
+    font-family: sans-serif;
+    height: 12px;
+    line-height: 12px;
+    color: #fff;
+    background-color: #f25d8e;
+    border-radius: 10px;
+    position: absolute;
+    padding: 1px 2px;
+    font-size: 12px;
+    min-width: 16px;
+    z-index: 30;
+    text-align: center;
+
+}
+/*重写layer按钮颜色*/
+.layui-layer-btn .layui-layer-btn0 {
+    border-color: #000 !important;
+    background-color: #252525 !important;
+    color: #fff !important;
+}
+/*重写模板颜色*/
+/*
+ul.sidebar-menu li a:hover {
+    color: #f25d8e;
+}
+.cart-content h3 a:hover{color:#f25d8e}
+.checkout a:hover{border-color:#f25d8e;color:#f25d8e}
+.buttons-cart input:hover,
+.coupon input[type="submit"]:hover,
+.buttons-cart a:hover {
+    background: #f25d8e none repeat scroll 0 0;
+}
+.cart_totals table tr.order-total .amount {} .wc-proceed-to-checkout a {
+    background: #f25d8e none repeat scroll 0 0;
+}
+.product-name > a:hover {
+    color: #f25d8e
+}
+.wishlist-table table .product-add-to-cart > a:hover {
+    background: #f25d8e none repeat scroll 0 0;
+}
+.wishlist-table table .wishlist-in-stock {
+    color: #f25d8e;
+}
+.newsletter-text h4 span {
+    color: #f25d8e;
+}
+.block_content form button:hover {
+    color: #f25d8e
+}
+.service-icon i {
+    color: #f25d8e;
+}
+.btn:hover {
+    background: #f25d8e;
+}
+.shopping-cart > a:first-child b {
+    color: #f25d8e;
+}
+.shopping-cart > a:first-child {
+    color: #f25d8e;
+}
+a#scrollUp {
+    background: #f25d8e;
+}
+a:focus, a:hover {
+    color: #f25d8e;
+}
+.main-menu ul li:hover > a, .main-menu ul li ul.submenu li a:hover, .main-menu ul li .mega-menu ul li a:hover {
+    color: #f25d8e;
+}
+.custom-tab li.active a, .custom-tab li a:hover {
+    color: #f25d8e;
+}
+#newsletter_block_left h4 span {
+    color: #f25d8e;
+}
+.product-action a:hover{
+    color:#f25d8e;
+}
+.nivo-directionNav a:hover {
+    border-color: #f25d8e;
+    color:#f25d8e;
+}
+.owl-carousel .owl-controls .owl-nav div:hover{
+    color: #f25d8e;border-color:#f25d8e;
+}
+.breadcrumb > .active, .breadcrumb a:hover {
+    color:#f25d8e;
+}
+.breadcrumb {
+    color:#f25d8e;
+}
+.wc-proceed-to-checkout a {
+    background:#f25d8e;
+}
+.cart_totals table td .amount {
+    color:#f25d8e;
+}
+span.cart-price {
+    color:#f25d8e;
+}
+input:focus {
+    border: 2px solid #f25d8e;
+}
+textarea:focus {
+    border: 2px solid #f25d8e;
+}
+.table-content table td.product-remove i:hover {
+    color:#f25d8e;
+}
+.table-content table td.product-remove i:hover {
+    color: #f25d8e;
+}
+.table-content table td.product-name a:hover,
+.buttons-cart a:hover {
+    background: #f25d8e;
+}
+.buttons-cart a:hover {
+    background: #f25d8e none repeat scroll 0 0;
+}
+.cart_totals table {} .cart_totals table td .amount {
+    color: #f25d8e;
+ }
+.coupon-area {} .coupon-accordion {} .coupon-accordion h3 {
+    border-top: 3px solid #f25d8e;
+}
+.coupon-accordion span:hover,
+p.lost-password a:hover {
+    color: #f25d8e;
+}
+.coupon-info p.form-row-last {} .coupon-info p.form-row input[type="submit"]:hover,
+p.checkout-coupon input[type="submit"]:hover {
+    background: #f25d8e none repeat scroll 0 0;
+}
+.your-order-table table tr.order-total td span {
+    color: #f25d8e;
+}
+.order-button-payment {} .order-button-payment input {
+    background: #f25d8e none repeat scroll 0 0;
+}
+.theme-button:hover {
+    background: #f25d8e;
+    border-color: #f25d8e
+}
+.lost_password > a {
+    color: #f25d8e;
+}
+.elements-tab-area .tab-list li.active a {
+    background: #f25d8e none repeat scroll 0 0;
+}
+label.inline > a {
+    color: #f25d8e;
+}
+!*重写移动设备菜单样式*!
+.mean-container .mean-bar {
+    background: #f25d8e;
+}
+.mean-container .mean-nav ul li a:hover {
+    color: #f25d8e;
+}
+*/

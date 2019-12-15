@@ -1,0 +1,5 @@
+{
+	"code": 0,
+	"msg": "成功退出登录",
+	"url": "/templates/admin/index.html?u=hayate"
+}

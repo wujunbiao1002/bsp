@@ -1,0 +1,26 @@
+/*--------------------------------------------------------------
+
+Template: Theme Name
+Author: 
+Version:  1
+Design and Developed by: 
+
+Note: This is the file where you can add your custom styles to change the look of the theme. But don't modify "style.css" file.
+
+---------------------------------------------------------------*/
+
+/* ----------------------------------------------------
+	You can put your custom css code here: 
+-------------------------------------------------------*/
+.static-block-2 .text .link {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border: 1px solid red;
+  color: red;
+  display: inline-block;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  margin-top: 30px;
+  padding: 10px 33px;
+  text-transform: uppercase;
+}

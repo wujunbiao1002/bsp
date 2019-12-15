@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../statics/js/jquery-3.3.1.js"></script>
+    <script src="../../statics/js/echarts.js"></script>
+    <script src="../../statics/layui/layui.js"></script>
+    <link rel="stylesheet" href="../../statics/layui/css/layui.css">
+</head>
+<body>
+<div>
+    <br/>
+    <label>年度查询：</label>
+    <div class="layui-inline">
+        <input id="year" lay-verify="date" autocomplete="off" class="layui-input" type="text" placeholder="点击此处"
+               readonly>
+    </div>&nbsp;&nbsp;
+    <button id="yearButton" class="layui-btn" type="button">查看</button>
+    <br/></br>
+</div>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 1100px;height:500px;"></div>
+
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var year = new Date().getFullYear();
+
+    var myChart = echarts.init(document.getElementById('main'));
+    var option = {
+        title: {
+            text: '每年各个月共享图书数量变化对比'
+        },
+        tooltip: {
+            trigger: 'item',
+            // formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            x: 'left',
+            data: []
+        },
+        series: [
+            {
+                type: 'line',
+                data: [
+
+                ],
+            }
+        ],
+        xAxis: {
+            type: 'category',
+            data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月',]
+        },
+        yAxis: {
+            type: 'value'
+        },
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+
+    //ajax获取数据函数
+    function read(year) {
+        myChart.showLoading();    //数据加载完之前先显示一段简单的loading动画
+        $.ajax({
+            type: 'get',
+            url: '/echarts/perMonthSharNum.do?year=' + year,//请求数据的地址
+            dataType: "json",        //返回数据形式为json
+            success: function (result) {
+                //请求成功时执行该函数内容，result即为服务器返回的json对象
+                myChart.hideLoading();    //隐藏加载动画
+                myChart.setOption({        //加载数据图表
+                    title: {
+                        text: year+'年各个月共享图书数量变化对比',
+                    },
+                    series: [
+                        {
+                            data: result
+                        }
+                    ]
+                });
+            },
+            error: function (errorMsg) {
+                //请求失败时执行该函数
+                alert("图表请求数据失败!");
+                myChart.hideLoading();
+            }
+        });
+    }
+
+    //页面初始化加载时，调用read()发出ajax请求
+    $(function () {
+        read(year);
+    })
+
+
+    layui.use(['laydate'], function () {
+        var laydate = layui.laydate;
+        //年范围
+        laydate.render({
+            elem: '#year'
+            , type: 'year'
+            , value: year
+        });
+    });
+
+    $("#yearButton").click(function () {
+        var year = $("#year").val();
+        read(year);
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsp.dao.DonatedBookMapper">
+  <resultMap id="BaseResultMap" type="com.bsp.entity.DonatedBook">
+    <id column="dob_id" jdbcType="INTEGER" property="dobId" />
+    <result column="dob_name" jdbcType="VARCHAR" property="dobName" />
+    <result column="isbn" jdbcType="VARCHAR" property="isbn" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+    <result column="donor" jdbcType="VARCHAR" property="donor" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <association property="secondaryClassification" column="sc_id" javaType="SecondaryClassification" select="com.bsp.dao.SecondaryClassificationMapper.selectByPrimaryKey" />
+    <association property="user" column="uuid" javaType="User" select="com.bsp.dao.UserMapper.selectByPrimaryKey" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    dob_id, dob_name, isbn, number, sc_id, uuid, source, donor, time, phone
+  </sql>
+  <!-- 高级+分页查询的where语句块 -->
+  <sql id="where_of_query">
+	<where>
+		<if test="search!=null">AND (
+			dob_id LIKE CONCAT('%',#{search},'%')
+			OR dob_name LIKE CONCAT('%',#{search},'%')
+			OR isbn LIKE CONCAT('%',#{search},'%')
+			OR source LIKE CONCAT('%',#{search},'%')
+			OR donor LIKE CONCAT('%',#{search},'%')
+			OR phone LIKE CONCAT('%',#{search},'%')
+		)
+		</if>
+	</where>
+  </sql>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from donated_book
+  </select>
+
+  <select id="getTotalCount" resultType="java.lang.Integer" parameterType="com.bsp.dto.QueryObject" >
+    select COUNT(*) from donated_book 
+    <include refid="where_of_query" />
+  </select>
+  <select id="selectByQueryObject" resultMap="BaseResultMap" parameterType="com.bsp.dto.QueryObject" >
+    select
+	<include refid="Base_Column_List" />
+    from donated_book
+    <include refid="where_of_query" />
+	<if test="sort!=null">
+		ORDER BY ${sort}
+		<if test="order!=null">${order}</if>
+	</if>
+    <if test="startIndex>-1">
+		LIMIT #{startIndex},#{limit}
+	</if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from donated_book
+    where dob_id = #{dobId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from donated_book
+    where dob_id = #{dobId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bsp.entity.DonatedBook">
+    insert into donated_book (dob_id, dob_name, isbn, 
+      number, sc_id, uuid, 
+      source, donor, time, 
+      phone)
+    values (#{dobId,jdbcType=INTEGER}, #{dobName,jdbcType=VARCHAR}, #{isbn,jdbcType=VARCHAR}, 
+      #{number,jdbcType=INTEGER}, #{secondaryClassification.scId,jdbcType=INTEGER}, #{user.uuid,jdbcType=VARCHAR}, 
+      #{source,jdbcType=VARCHAR}, #{donor,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, 
+      #{phone,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bsp.entity.DonatedBook">
+    insert into donated_book
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dobId != null">
+        dob_id,
+      </if>
+      <if test="dobName != null">
+        dob_name,
+      </if>
+      <if test="isbn != null">
+        isbn,
+      </if>
+      <if test="number != null">
+        number,
+      </if>
+      <if test="secondaryClassification != null">
+        sc_id,
+      </if>
+      <if test="user != null">
+        uuid,
+      </if>
+      <if test="source != null">
+        source,
+      </if>
+      <if test="donor != null">
+        donor,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dobId != null">
+        #{dobId,jdbcType=INTEGER},
+      </if>
+      <if test="dobName != null">
+        #{dobName,jdbcType=VARCHAR},
+      </if>
+      <if test="isbn != null">
+        #{isbn,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="secondaryClassification != null">
+        #{secondaryClassification.scId,jdbcType=INTEGER},
+      </if>
+      <if test="user != null">
+        #{user.uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null">
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="donor != null">
+        #{donor,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bsp.entity.DonatedBook">
+    update donated_book
+    <set>
+      <if test="dobName != null">
+        dob_name = #{dobName,jdbcType=VARCHAR},
+      </if>
+      <if test="isbn != null">
+        isbn = #{isbn,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="secondaryClassification != null">
+        sc_id = #{secondaryClassification.scId,jdbcType=INTEGER},
+      </if>
+      <if test="user != null">
+        uuid = #{user.uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null">
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="donor != null">
+        donor = #{donor,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dob_id = #{dobId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bsp.entity.DonatedBook">
+    update donated_book
+    set dob_name = #{dobName,jdbcType=VARCHAR},
+      isbn = #{isbn,jdbcType=VARCHAR},
+      number = #{number,jdbcType=INTEGER},
+      sc_id = #{secondaryClassification.scId,jdbcType=INTEGER},
+      uuid = #{user.uuid,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR},
+      donor = #{donor,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      phone = #{phone,jdbcType=VARCHAR}
+    where dob_id = #{dobId,jdbcType=INTEGER}
+  </update>
+</mapper>

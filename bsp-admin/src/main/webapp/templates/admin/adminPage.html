@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+	<link rel="stylesheet" href="../../statics/js/plugins/bootstrap/css/bootstrap.css" />
+	<link rel="stylesheet" href="../../statics/font-awesome/css/font-awesome.css" />
+	<link rel="stylesheet" href="../../statics/js/plugins/bootstrap-table/bootstrap-table.css" />
+	<link rel="stylesheet" href="../../statics/js/plugins/bootstrapvalidator/css/bootstrapValidator.css" />
+	<link rel="stylesheet" href="../../statics/js/plugins/bootstrap-toggle/css/bootstrap-toggle.css" />
+	<link rel="stylesheet" href="../../statics/js/plugins/bootstrap-switch/css/bootstrap3/bootstrap-switch.css" />
+	<link rel="stylesheet" href="../../statics/css/style_admin.css">
+</head>
+<body>
+
+	<div id="vue-app">
+		<div id="table-div" style="margin: 0px 10px;">
+			<table id="data-list"></table>
+		</div>
+		<div id="tab-toolbar" class="btn-group" role="group" >
+			<button @click="openAddModal" type="button" class="btn btn-default btn-small" title="增加"><i class="fa fa-plus" aria-hidden="true"></i></button>
+		</div>
+		<div id="input-modal-add" class="modal fade" tabindex="-1" role="dialog"  data-backdrop="static">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">添加</h4>
+					</div>
+					<div class="modal-body">
+						<form id="input-form-add"  class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">用户名</label>
+								<div class="col-sm-10">
+									<input v-model="obj.aId" name="id" class="form-control" placeholder=""></input>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">姓名</label>
+								<div class="col-sm-10">
+									<input v-model="obj.aName" name="name" class="form-control" placeholder=""></input>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">密码</label>
+								<div class="col-sm-10">
+									<input v-model="obj.aPassword" type="password" name="password" class="form-control" placeholder=""></input>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">确认密码</label>
+								<div class="col-sm-10">
+									<input v-model="confirmPwd" name="confirm" type="password" class="form-control" placeholder=""></input>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">手机号</label>
+								<div class="col-sm-10">
+									<input v-model="obj.aPhone" name="phone" class="form-control" placeholder=""></input>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">类型</label>
+								<div class="col-sm-10">
+									<select v-model="obj.aLevel" class="form-control">
+										<option value="-1">请选择</option>
+										<option value="2">普通管理员</option>
+										<option value="1">超级管理员</option>
+									</select>
+									<span class="text-danger">{{selectMsg}}</span>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button id="submit-btn" type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> 取消</button>
+						<button @click="add" type="button" class="btn btn-primary"><i class="fa fa-save" aria-hidden="true"></i> 保存</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="input-modal-update" class="modal fade" tabindex="-1" role="dialog"  data-backdrop="static">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" >编辑</h4>
+					</div>
+					<div class="modal-body">
+						<form id="input-form-update"  class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">姓名</label>
+								<div class="col-sm-10">
+									<input v-model="obj.aName" name="name" class="form-control" placeholder=""></input>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">手机号</label>
+								<div class="col-sm-10">
+									<input v-model="obj.aPhone" name="phone" class="form-control" placeholder=""></input>
+								</div>
+							</div>
+							<div v-show="obj.aLevel" class="form-group">
+								<label class="col-sm-2 control-label">类型</label>
+								<div class="col-sm-10">
+									<select v-model="obj.aLevel" class="form-control">
+										<option value="-1">请选择</option>
+										<option value="2">普通管理员</option>
+										<option value="1">超级管理员</option>
+									</select>
+									<span class="text-danger">{{selectMsgUpdate}}</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">密码</label>
+								<div class="col-sm-10">
+									<input v-model="obj.aPassword" type="password" name="password" class="form-control" placeholder="不修改请留空"></input>
+								</div>
+							</div>
+							<div v-show="obj.aPassword" class="form-group">
+								<label class="col-sm-2 control-label">确认密码</label>
+								<div class="col-sm-10">
+									<input v-model="confirmPwd" type="password" name="confirm" class="form-control" placeholder=""></input>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> 取消</button>
+						<button @click="update" type="button" class="btn btn-primary"><i class="fa fa-save" aria-hidden="true"></i> 保存</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="../../statics/js/jquery-3.3.1.js"></script>
+	<script src="../../statics/js/vue.js"></script>
+	<script src="../../statics/js/plugins/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../../statics/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+	<script src="../../statics/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+	<script src="../../statics/js/plugins/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+	<script src="../../statics/js/plugins/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
+	<script src="../../statics/js/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+
+	<!-- layer -->
+	<script src="../../statics/js/plugins/layer/layer.js"></script>
+	<script src="../../statics/js/commons/common.js"></script>
+	<script src="../../statics/js/admin/adminPage.js"></script>
+</body>
+</html>

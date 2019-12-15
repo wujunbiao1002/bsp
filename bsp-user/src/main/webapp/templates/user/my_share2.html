@@ -1,0 +1,649 @@
+﻿<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>肇庆学院图书共享平台-我的需求</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- favicon
+    ============================================ -->
+	<link rel="shortcut icon" type="image/x-icon" href="../../statics/img/logo_bsp.png">
+
+	<!-- All css files are included here. -->
+	<!-- Bootstrap framework main css -->
+	<link rel="stylesheet" href="../../statics/assets/css/bootstrap.min.css">
+	<!-- This core.css file contents all plugings css file. -->
+	<link rel="stylesheet" href="../../statics/assets/css/core.css">
+	<!-- Theme shortcodes/elements style -->
+	<link rel="stylesheet" href="../../statics/assets/css/shortcode/shortcodes.css">
+	<!-- Theme main style -->
+	<link rel="stylesheet" href="../../statics/assets/style.css">
+	<!-- Responsive css -->
+	<link rel="stylesheet" href="../../statics/assets/css/responsive.css">
+	<!-- User style -->
+	<link rel="stylesheet" href="../../statics/assets/css/custom.css">
+
+	<link rel="stylesheet" href="../../statics/css/common_user.css">
+
+	<link rel="stylesheet" href="../../statics/js/plugins/webuploader-0.1.5/webuploader.css">
+
+	<link rel="stylesheet" href="../../statics/js/imageWebUploader/css/imageWebUploader.css">
+
+	<!-- Modernizr JS -->
+	<script src="../../statics/assets/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+
+<body>
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+<!-- header start -->
+<header v-cloak id="header-app" class="header-pos">
+    <div class="header-area header-middle">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2 col-sm-3 col-xs-12">
+                    <div class="logo">
+                        <a href="/"><img src="../../statics/img/logo_bsp.png" alt="" /></a>
+                    </div>
+                </div>
+                <div class="col-md-10 col-sm-9 col-xs-12 text-right xs-center">
+                    <div class="main-menu display-inline hidden-sm hidden-xs">
+                        <nav>
+                            <ul>
+                                <li><a href="/">首页</a></li>
+                                <li><a href="/p/repository">图书检索</a></li>
+                                <li v-show="login"><a href="/p/record">借阅记录</a></li>
+                                <li v-show="login"><a href="/p/lended">借出记录</a></li>
+                                <li v-show="login"><a href="/p/my_share">共享图书</a></li>
+								<li v-show="login"><a href="/p/my_share2">需求图书</a></li>
+                                <li v-show="login"><a href="/p/message_center">消息<span v-show="msgNum"  id="msgNum" class="superscript">{{msgNum}}</span></a></li>
+                                <li v-show="!login"><a href="/login">登录</a></li>
+                                <li v-show="!login"><a href="/p/register">注册账号</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="search-block-top display-inline">
+                        <div class="icon-search"></div>
+                        <div class="toogle-content">
+                            <form action="javascript:doSearch()" id="searchbox">
+                                <input v-model="search" type="text" placeholder="搜索图书" />
+                                <button type="button" @click="doSearch" class="button-search"></button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="setting-menu display-inline">
+                        <div class="icon-nav current"></div>
+                        <ul class="content-nav toogle-content">
+                            <li class="currencies-block-top">
+                                <!--<div class="current"><b>My Account</b></div>-->
+                                <ul>
+                                    <li v-show="login"><a href="/p/user_center">账户资料</a></li>
+                                    <li @click="logout"  v-show="login"><a href="javascript:;">退出登录</a></li>
+                                    <li v-show="!login"><a href="/login">登录</a></li>
+                                    <li v-show="!login"><a href="/p/register">注册账号</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mobile-menu-area visible-sm visible-xs">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mobile-menu">
+                        <nav id="mobile-menu-active">
+                            <ul>
+                                <li><a href="/">首页</a></li>
+                                <li><a href="/p/repository">图书检索</a></li>
+                                <li v-show="login"><a href="/p/record">借阅记录</a></li>
+                                <li v-show="login"><a href="/p/lended">借出记录</a></li>
+                                <li v-show="login"><a href="/p/my_share">共享图书</a></li>
+								<li v-show="login"><a href="/p/my_share2">需求图书</a></li>
+                                <li v-show="login"><a href="/p/message_center">消息<span v-show="msgNum" id="msgNum" class="mobile-superscript">{{msgNum}}</span></a></li>
+                                <li v-show="!login"><a href="/login">登录</a></li>
+                                <li v-show="!login"><a href="/p/register">注册账号</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- header end -->
+<div class="space-custom"></div>
+<!-- breadcrumb start -->
+<div class="breadcrumb-area">
+	<div class="container">
+		<ol class="breadcrumb">
+			<li><a href="javascript:;"><i class="fa fa-share-alt"></i></a></li>
+			<li><a href="javascript:;">我的需求</a></li>
+		</ol>
+	</div>
+</div>
+<!-- breadcrumb end -->
+<!-- cart-main-area start -->
+<div id="my_share_app" v-cloak class="cart-main-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3 col-sm-4">
+				<div class="column">
+					<h2 class="title-block">我的需求</h2>
+					<div class="sidebar-widget">
+						<ul class="sidebar-menu">
+							<li><a @click="switchPage(0)" href="javascript:;">正在需求 </a></li>
+							<li><a @click="switchPage(1)" href="javascript:;">正在审核 </a></li>
+							<li><a @click="switchPage(2)" href="javascript:;">添加需求 </a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div v-show="showPage==0" class="col-md-9 col-sm-8">
+				<h2 class="page-heading mt-40">
+					<span class="cat-name">正在需求</span>
+				</h2>
+				<div class="table-content table-responsive">
+					<table>
+						<thead>
+						<tr>
+							<th class="product-thumbnail">封面</th>
+							<th class="product-name">详情</th>
+							<th class="product-remove">操作</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr v-for="item in sharingPage.rows">
+							<td class="product-thumbnail"><a :href="'/cover?imagePath='+item.imagePath"  target="_blank"><img :src="'/cover?imagePath='+item.imagePath" alt=""/></a></td>
+							<td class="product-name" style="font-size: 12px;text-align: left;vertical-align: top">
+								<span style="font-weight: bold">书名：</span><span>《{{item.lbName}}》</span></br>
+								<span style="font-weight: bold">作者：</span><span>{{item.lbAuthor}}</span></br>
+								<span style="font-weight: bold">出版社：</span><span>{{item.lbPublishing}}</span></br>
+								<span style="font-weight: bold">所属分类：</span><span>{{item.secondaryClassification.primaryClassification.pcName}}&nbsp;<i style="color: #66ccff;" class="fa fa-chevron-right"></i>&nbsp;{{item.secondaryClassification.scName}}</span></br>
+								<span style="font-weight: bold">ISBN：</span><span>{{item.isbn}}</span></br>
+								<span style="font-weight: bold">共享开始时间：</span><span>{{millisecondsToDateTime(item.openLoanTime)}}</span></br>
+								<span style="font-weight: bold">数量：</span><span>{{item.lbNumber}}</span>，
+								<span style="font-weight: bold">剩余：</span><span>{{item.left}}</span>，
+								<span style="font-weight: bold">累计借出：</span><span>{{item.totalLending}}</span></br>
+								<span style="font-weight: bold">手机号：</span><span>{{item.phone}}</span></br>
+								<span style="font-weight: bold">借阅时长：</span><span>{{item.lbDuratuin}} 天</span></br>
+								<span style="font-weight: bold">状态：</span>
+								<span v-if="item.lbStatus==0" class="label label-warning">暂停需求</span>
+								<span v-if="item.lbStatus==1" class="label label-primary">需求中</span>
+								<span v-if="item.lbStatus==2" class="label label-danger">已下架</span></br>
+								<span style="font-weight: bold">评价：</span><span>{{textCut(item.lbComment, 100)}}</span></br>
+							</td>
+							<td class="product-name product-remove" style="font-size: 12px;width: 10em;">
+								<a @click="closeShare(item.lbId)"  v-if="item.lbStatus==1" href="javascript:;"><i class="fa fa-pause"></i>关闭</a>
+								<a @click="openShare(item.lbId)"  v-if="item.lbStatus==0" href="javascript:;"><i class="fa fa-play"></i>开启</a>
+								<a @click="deleteShare(item.lbId)" href="javascript:;"><i class="fa fa-trash-o"></i>删除</a>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="row">
+					<div v-show="showPage==0&&sharingPage.totalPage>1" class="content-sortpagibar">
+						<div class="product-count display-inline">当前第{{sharingPage.currPage}} / {{sharingPage.totalPage}}页</div>
+						<ul class="shop-pagi display-inline">
+							<li><a @click="goSharingPage(1)" href="javascript:;"><i class="fa fa-angle-double-left"></i></a></li>
+							<li><a @click="goSharingPage(sharingPage.currPage>1?sharingPage.currPage-1:sharingPage.currPage)" href="javascript:;"><i class="fa fa-angle-left"></i></a></li>
+							<li v-for="n in (sharingPageBar.endPageIndex-sharingPageBar.startPageIndex+1)" :class="{active:(sharingPageBar.startPageIndex+n-1)==sharingPage.currPage}">
+								<a @click="goSharingPage(sharingPageBar.startPageIndex+n-1)" href="javascript:;">{{sharingPageBar.startPageIndex+n-1}}</a>
+							</li>
+							<li><a @click="goSharingPage(sharingPage.currPage<sharingPage.totalPage?sharingPage.currPage+1:sharingPage.totalPage)" href="javascript:;"><i class="fa fa-angle-right"></i></a></li>
+							<li><a @click="goSharingPage(sharingPage.totalPage)" href="javascript:;"><i class="fa fa-angle-double-right"></i></a></li>
+						</ul>
+					</div><!--已读消息 end-->
+				</div>
+			</div>
+			<div v-show="showPage==1" class="col-md-9 col-sm-8">
+				<h2 class="page-heading mt-40">
+					<span class="cat-name">正在审核</span>
+				</h2>
+				<div v-show="applyingPageShow.showEdit" class="row" style="padding: 15px" v-show="editApplyStep==1" >
+					<div v-show="applyingPageShow.editApplyStep==0" class="row">
+						<div class="col-md-4 col-sm-5 col-xs-12">
+							<div class="thumbnail">
+								<img :src="'/cover?imagePath='+editApply.imagePath">
+							</div>
+						</div>
+						<div class="col-md-8 col-sm-7 col-xs-12">
+							<div id="editApply-image-uploader"></div>
+							<div class="buttons-cart" >
+								<a href="javascript:;" @click="cancelEditApply">取消</a>
+								<a href="javascript:;" @click="changeStepOfEditApply(1)">下一步 <i class="fa fa-chevron-right"></i></a>
+							</div>
+						</div>
+					</div>
+
+					<form v-show="applyingPageShow.editApplyStep==1" id="editApplyForm" class="row">
+						<div class="col-md-6 col-sm-6 col-xs-12" style="margin-bottom: 10px">
+							<label>书名：</label>
+							<span class="text-danger" style="font-size: 12px">{{editApplyMsg.name}}</span>
+							<input @change="applyCheck" v-model="editApply.clbName" type="text"/>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12" style="margin-bottom: 10px">
+							<label>作者：</label>
+							<span class="text-danger" style="font-size: 12px">{{editApplyMsg.author}}</span>
+							<input @change="applyCheck" v-model="editApply.clbAuthor" type="text"/>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12" style="margin-bottom: 10px">
+							<label>出版社：</label>
+							<span class="text-danger" style="font-size: 12px">{{editApplyMsg.publishing}}</span>
+							<input @change="applyCheck" v-model="editApply.clbPublishing" type="text"/>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12" style="margin-bottom: 10px">
+							<label>ISBN：</label>
+							<span class="text-danger" style="font-size: 12px">{{editApplyMsg.isbn}}</span>
+							<input @change="applyCheck" v-model="editApply.isbn" type="text"/>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12" style="margin-bottom: 10px">
+							<label>数量：</label>
+							<span class="text-danger" style="font-size: 12px">{{editApplyMsg.number}}</span>
+							<input @change="applyCheck" v-model="editApply.clbNumber" type="number" min="1"/>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12" style="margin-bottom: 10px">
+							<label>可借时长(天)：</label>
+							<span class="text-danger" style="font-size: 12px">{{editApplyMsg.duration}}</span>
+							<input @change="applyCheck" v-model="editApply.clbDuration" type="number" min="15"/>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12" style="margin-bottom: 10px">
+							<label>一级分类：</label>
+							<span class="text-danger" style="font-size: 12px">{{editApplyMsg.primaryClassification}}</span>
+							<select @change="loadSecondaryClassifications" v-model="pcId">
+								<option value="0" >请选择</option>
+								<option v-for="item in primaryClassifications" :value="item.pcId" >{{item.pcName}}</option>
+							</select>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12" style="margin-bottom: 10px">
+							<label>二级分类：</label>
+							<span class="text-danger" style="font-size: 12px">{{editApplyMsg.secondaryClassification}}</span>
+							<select @change="applyCheck" v-model="editApply.secondaryClassification.scId" >
+								<option value="0" >请选择</option>
+								<option v-for="item in secondaryClassifications" :value="item.scId" >{{item.scName}}</option>
+							</select>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12" style="margin-bottom: 10px">
+							<label>手机号：</label>
+							<span class="text-danger" style="font-size: 12px">{{editApplyMsg.phone}}</span>
+							<input @change="applyCheck" v-model="editApply.phone" type="text"/>
+						</div>
+						<div class="col-xs-12"  style="margin-bottom: 10px">
+							<label>评价：</label>
+							<span class="text-danger" style="font-size: 12px">{{editApplyMsg.comment}}</span>
+							<textarea @change="applyCheck" v-model="editApply.clbComment" rows="5" maxlength="2000" ></textarea>
+						</div>
+					</form>
+					<div v-show="applyingPageShow.editApplyStep==1" class="row" style="padding-left: 15px">
+						<div class="buttons-cart">
+							<a href="javascript:;" @click="changeStepOfEditApply(0)"><i class="fa fa-chevron-left"></i> 上一步</a>
+							<input @click="applyUpdate" type="button" value="提交" />
+							<a href="javascript:;" @click="cancelEditApply">取消</a>
+						</div>
+					</div>
+				</div>
+				<div v-show="!applyingPageShow.showEdit" class="table-content table-responsive">
+					<table>
+						<thead>
+						<tr>
+							<th class="product-thumbnail">封面</th>
+							<th class="product-name">详情</th>
+							<th class="product-remove">操作</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr v-for="item in applyingPage.rows">
+							<td class="product-thumbnail"><a :href="'/cover?imagePath='+item.imagePath"  target="_blank"><img :src="'/cover?imagePath='+item.imagePath" alt=""/></a></td>
+							<td class="product-name" style="font-size: 12px;text-align: left;vertical-align: top">
+								<span style="font-weight: bold">书名：</span><span>《{{item.clbName}}》</span></br>
+								<span style="font-weight: bold">作者：</span><span>{{item.clbAuthor}}</span></br>
+								<span style="font-weight: bold">出版社：</span><span>{{item.clbPublishing}}</span></br>
+								<span style="font-weight: bold">所属分类：</span><span>{{item.secondaryClassification.primaryClassification.pcName}}&nbsp;<i style="color: #ffae00;" class="fa fa-chevron-right"></i>&nbsp;{{item.secondaryClassification.scName}}</span></br>
+								<span style="font-weight: bold">ISBN：</span><span>{{item.isbn}}</span></br>
+								<span style="font-weight: bold">数量：</span><span>{{item.clbNumber}}</span></br>
+								<span style="font-weight: bold">借阅时长：</span><span>{{item.clbDuration}} 天</span></br>
+								<span style="font-weight: bold">手机号：</span><span>{{item.phone}}</span></br>
+								<span style="font-weight: bold">状态：</span>
+								<span v-if="item.clbStatus==0" class="label label-warning">等待审核</span>
+								<span v-if="item.clbStatus==1" class="label label-danger">审核不通过</span><span v-if="item.clbStatus==1">&nbsp;{{item.failureCause}}</span></br>
+								<span style="font-weight: bold">评价：</span><span>{{textCut(item.clbComment, 100)}}</span>
+							</td>
+							<td class="product-name product-remove" style="font-size: 12px;width: 10em;">
+                                <a @click="goEditPage(item.clbId)" href="javascript:;"><i class="fa fa-edit"></i>编辑</a>
+                                <a @click="cancelShare(item.clbId)" href="javascript:;"><i class="fa fa-trash-o"></i>取消</a>
+                            </td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+				<div v-show="!applyingPageShow.showEdit" class="row">
+					<div v-show="showPage==1&&applyingPage.totalPage>1" class="content-sortpagibar">
+						<div class="product-count display-inline">当前第{{applyingPage.currPage}} / {{applyingPage.totalPage}}页</div>
+						<ul class="shop-pagi display-inline">
+							<li><a @click="goApplyingPage(1)" href="javascript:;"><i class="fa fa-angle-double-left"></i></a></li>
+							<li><a @click="goApplyingPage(applyingPage.currPage>1?applyingPage.currPage-1:applyingPage.currPage)" href="javascript:;"><i class="fa fa-angle-left"></i></a></li>
+							<li v-for="n in (applyingPageBar.endPageIndex-applyingPageBar.startPageIndex+1)" :class="{active:(applyingPageBar.startPageIndex+n-1)==applyingPage.currPage}">
+								<a @click="goApplyingPage(applyingPageBar.startPageIndex+n-1)" href="javascript:;">{{applyingPageBar.startPageIndex+n-1}}</a>
+							</li>
+							<li><a @click="goApplyingPage(applyingPage.currPage<applyingPage.totalPage?applyingPage.currPage+1:applyingPage.totalPage)" href="javascript:;"><i class="fa fa-angle-right"></i></a></li>
+							<li><a  @click="goApplyingPage(applyingPage.totalPage)" href="javascript:;"><i class="fa fa-angle-double-right"></i></a></li>
+						</ul>
+					</div><!--已读消息 end-->
+				</div>
+			</div>
+			<div v-show="showPage==2" class="col-md-9 col-sm-8">
+				<h2 class="page-heading mt-40">
+					<span class="cat-name">添加需求</span>
+				</h2>
+				<div class="row" style="padding: 15px">
+					<div v-show="newApplyStep==0" class="row">
+						<div class="col-md-8 col-sm-7 col-xs-12">
+							<div id="newApply-image-uploader"></div>
+							<div class="buttons-cart" >
+								<a href="javascript:;" @click="changeStepOfNewApply(1)">下一步 <i class="fa fa-chevron-right"></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row" style="padding: 15px" v-show="newApplyStep==1" >
+					<form id="newApplyForm" class="row">
+						<div class="col-md-6 col-sm-6 col-xs-12" style="margin-bottom: 10px">
+							<label>书名：</label>
+							<span class="text-danger" style="font-size: 12px">{{newApplyMsg.name}}</span>
+							<input @change="applyCheck" v-model="newApply.clbName" type="text"/>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12" style="margin-bottom: 10px">
+							<label>作者：</label>
+							<span class="text-danger" style="font-size: 12px">{{newApplyMsg.author}}</span>
+							<input @change="applyCheck" v-model="newApply.clbAuthor" type="text"/>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12" style="margin-bottom: 10px">
+							<label>出版社：</label>
+							<span class="text-danger" style="font-size: 12px">{{newApplyMsg.publishing}}</span>
+							<input @change="applyCheck" v-model="newApply.clbPublishing" type="text"/>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12" style="margin-bottom: 10px">
+							<label>ISBN：</label>
+							<span class="text-danger" style="font-size: 12px">{{newApplyMsg.isbn}}</span>
+							<input @change="applyCheck" v-model="newApply.isbn" type="text"/>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12" style="margin-bottom: 10px">
+							<label>数量：</label>
+							<span class="text-danger" style="font-size: 12px">{{newApplyMsg.number}}</span>
+							<input @change="applyCheck" v-model="newApply.clbNumber" type="number" min="1"/>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12" style="margin-bottom: 10px">
+							<label>可借时长(天)：</label>
+							<span class="text-danger" style="font-size: 12px">{{newApplyMsg.duration}}</span>
+							<input @change="applyCheck" v-model="newApply.clbDuration" type="number" min="15"/>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12" style="margin-bottom: 10px">
+							<label>一级分类：</label>
+							<span class="text-danger" style="font-size: 12px">{{newApplyMsg.primaryClassification}}</span>
+							<select @change="loadSecondaryClassifications" v-model="pcId">
+								<option selected value="0" >请选择</option>
+								<option v-for="item in primaryClassifications" :value="item.pcId">{{item.pcName}}</option>
+							</select>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12" style="margin-bottom: 10px">
+							<label>二级分类：</label>
+							<span class="text-danger" style="font-size: 12px">{{newApplyMsg.secondaryClassification}}</span>
+							<select  @change="applyCheck" v-model="newApply.secondaryClassification.scId" >
+								<option value="0" selected>请选择</option>
+								<option v-for="item in secondaryClassifications" :value="item.scId">{{item.scName}}</option>
+							</select>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12" style="margin-bottom: 10px">
+							<label>手机号：</label>
+							<span class="text-danger" style="font-size: 12px">{{newApplyMsg.phone}}</span>
+							<input @change="applyCheck" v-model="newApply.phone" type="text"/>
+						</div>
+						<div class="col-xs-12"  style="margin-bottom: 10px">
+							<label>评价：</label>
+							<span class="text-danger" style="font-size: 12px">{{newApplyMsg.comment}}</span>
+							<textarea @change="applyCheck" v-model="newApply.clbComment" rows="5" maxlength="2000" ></textarea>
+						</div>
+					</form>
+					<div class="row" style="padding-left: 15px">
+						<div class="buttons-cart">
+							<a href="javascript:;" @click="changeStepOfNewApply(0)"><i class="fa fa-chevron-left"></i> 上一步</a>
+							<input @click="apply" type="button" value="提交" />
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div v-show="newApplyStep==2" >
+						<div style="padding: 15px;min-height: 500px;text-align: center;">
+                            <p style="font-size: 40px"><i class="fa fa-check-circle text-success"></i> 提交申请成功。</p>
+                            <p style="text-align: center;"><a href="javascript:;" @click="initNewApplyForm"><i class="fa fa-chevron-circle-left"></i> 返回</a></p>
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- cart-main-area end -->
+<!-- service-area start -->
+<!--<div class="service-area pt-70 pb-40 gray-bg">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3 col-sm-6">
+				<div class="single-service mb-30">
+					<div class="service-icon">
+						<i class="pe-7s-world"></i>
+					</div>
+					<div class="service-title">
+						<h3>FREE SHIPPING</h3>
+						<p>Free shipping on all UK orders</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-6">
+				<div class="single-service mb-30">
+					<div class="service-icon">
+						<i class="pe-7s-refresh"></i>
+					</div>
+					<div class="service-title">
+						<h3>FREE EXCHANGE</h3>
+						<p>30 days return on all items</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-6">
+				<div class="single-service mb-30 sm-mrg">
+					<div class="service-icon">
+						<i class="pe-7s-headphones"></i>
+					</div>
+					<div class="service-title">
+						<h3>PREMIUM SUPPORT</h3>
+						<p>We support online 24 hours a day</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-6">
+				<div class="single-service mb-30 xs-mrg sm-mrg">
+					<div class="service-icon">
+						<i class="pe-7s-gift"></i>
+					</div>
+					<div class="service-title">
+						<h3>BLACK FRIDAY</h3>
+						<p>Shocking discount on every friday</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>-->
+<!-- service-area end -->
+<!-- footer start -->
+<!--<footer class="black-bg">-->
+	<!--<div class="footer-top-area ptb-60">-->
+		<!--<div class="container">-->
+			<!--<div class="row">-->
+				<!--<div class="col-md-3 col-sm-4">-->
+					<!--<div class="footer-widget">-->
+						<!--<h3 class="footer-title">Contact info</h3>-->
+						<!--<div class="footer-contact">-->
+							<!--<ul>-->
+								<!--<li><em class="fa fa-map-marker"></em>8901 Marmora Road, Glasgow <span>D04 89 GR, New York</span></li>-->
+								<!--<li><em class="fa fa-phone"></em>Telephones: (+1) 866-540-3229 <span>Fax: (+1) 866-540-3229</span></li>-->
+								<!--<li><em class="fa fa-envelope-o"></em>Email: support@posthemes.com</li>-->
+							<!--</ul>-->
+						<!--</div>-->
+					<!--</div>-->
+				<!--</div>-->
+				<!--<div class="col-md-2 col-sm-4">-->
+					<!--<div class="footer-widget">-->
+						<!--<h3 class="footer-title">My account</h3>-->
+						<!--<ul class="block-content">-->
+							<!--<li><a href="javascript:;">My orders</a></li>-->
+							<!--<li><a href="javascript:;">My credit slips</a></li>-->
+							<!--<li><a href="javascript:;">Sitemap</a></li>-->
+							<!--<li><a href="javascript:;">My addresses</a></li>-->
+							<!--<li><a href="javascript:;">My personal info</a></li>-->
+						<!--</ul>-->
+					<!--</div>-->
+				<!--</div>-->
+				<!--<div class="col-md-2 col-sm-4">-->
+					<!--<div class="footer-widget">-->
+						<!--<h3 class="footer-title">Information</h3>-->
+						<!--<ul class="block-content">-->
+							<!--<li><a href="javascript:;">Contact us</a></li>-->
+							<!--<li><a href="javascript:;">Discount</a></li>-->
+							<!--<li><a href="javascript:;">Site map</a></li>-->
+							<!--<li><a href="javascript:;">About us</a></li>-->
+							<!--<li><a href="javascript:;">Custom service</a></li>-->
+						<!--</ul>-->
+					<!--</div>-->
+				<!--</div>-->
+				<!--<div class="col-md-2 col-sm-4 footer-sm">-->
+					<!--<div class="footer-widget">-->
+						<!--<h3 class="footer-title">OUR SERVICE</h3>-->
+						<!--<ul class="block-content">-->
+							<!--<li><a href="javascript:;">My orders</a></li>-->
+							<!--<li><a href="javascript:;">My credit slips</a></li>-->
+							<!--<li><a href="javascript:;">Sitemap</a></li>-->
+							<!--<li><a href="javascript:;">My addresses</a></li>-->
+							<!--<li><a href="javascript:;">My personal info</a></li>-->
+						<!--</ul>-->
+					<!--</div>-->
+				<!--</div>-->
+				<!--<div class="col-md-3 col-sm-4 footer-sm">-->
+					<!--<div class="footer-widget">-->
+						<!--<h3 class="footer-title">OPENING TIME</h3>-->
+						<!--<div class="footer-time">-->
+							<!--<p><span class="ft-content"><span class="day">Monday - Friday</span><span class="time">9:00 - 22:00</span></span></p>-->
+							<!--<p><span class="ft-content"><span class="day">Saturday</span><span class="time">10:00 - 24:00</span></span></p>-->
+							<!--<p><span class="ft-content"><span class="day">Sunday</span><span class="time">12:00 - 24:00</span></span></p>-->
+							<!--<p><span class="ft-content"><span class="day">Thursday</span><span class="time">Free Shipping</span></span></p>-->
+							<!--<p><span class="ft-content"><span class="day">Friday</span><span class="time">sale of 30%</span></span></p>-->
+						<!--</div>-->
+					<!--</div>-->
+				<!--</div>-->
+			<!--</div>-->
+		<!--</div>-->
+	<!--</div>-->
+	<!--&lt;!&ndash; footer-bootom-area start &ndash;&gt;-->
+	<!--<div class="footer-bootom-area ptb-15">-->
+		<!--<div class="container">-->
+			<!--<div class="row">-->
+				<!--<div class="col-md-6 col-sm-6 col-xs-12">-->
+					<!--<div class="copyright">-->
+						<!--<p>Copyright &copy; 2017.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>-->
+					<!--</div>-->
+				<!--</div>-->
+				<!--<div class="col-md-6 col-sm-6 col-xs-12">-->
+					<!--<div class="payment">-->
+						<!--<img src="../../statics/assets/img/payment.png" alt="" />-->
+					<!--</div>-->
+				<!--</div>-->
+			<!--</div>-->
+		<!--</div>-->
+	<!--</div>-->
+	<!--&lt;!&ndash; footer-bootom-area end &ndash;&gt;-->
+<!--</footer>-->
+<!-- footer end -->
+<!-- Modal -->
+<!--<div class="modal fade" id="productModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+			</div>
+			<div class="modal-body">
+				<div class="modal-img">
+					<a href="../../statics/assets/shop.html"><img src="../../statics/assets/img/product/1.jpg" alt="" /></a>
+				</div>
+				<div class="modal-pro-content">
+					<h3><a href="javascript:;">Phasellus Vel Hendrerit</a></h3>
+					<div class="pro-rating">
+						<i class="fa fa-star"></i>
+						<i class="fa fa-star"></i>
+						<i class="fa fa-star"></i>
+						<i class="fa fa-star"></i>
+						<i class="fa fa-star-o"></i>
+					</div>
+					<span>(2 customer reviews)</span>
+					<div class="price">
+						<span>$70.00</span>
+						<span class="old">$80.11</span>
+					</div>
+					<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet.</p>
+					<form action="#">
+						<input type="number" value="1" />
+						<button>Add to cart</button>
+					</form>
+					<div class="product_meta">
+						<span class="posted_in">Categories: <a rel="tag" href="javascript:;">Albums</a>, <a rel="tag" href="javascript:;">Music</a></span> <span class="tagged_as">Tags: <a rel="tag" href="javascript:;">Albums</a>, <a rel="tag" href="javascript:;">Music</a></span>
+					</div>
+					<div class="social">
+						<a href="javascript:;"><i class="fa fa-facebook"></i></a>
+						<a href="javascript:;"><i class="fa fa-twitter"></i></a>
+						<a href="javascript:;"><i class="fa fa-google-plus"></i></a>
+						<a href="javascript:;"><i class="fa fa-instagram"></i></a>
+						<a href="javascript:;"><i class="fa fa-pinterest"></i></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>-->
+<!-- Modal end -->
+
+<!-- jquery latest version -->
+<script src="../../statics/assets/js/vendor/jquery-1.12.0.min.js"></script>
+<script src="../../statics/js/vue.js"></script>
+<script src="../../statics/js/commons/common.js"></script>
+<!--<script src="../../statics/js/user/header.js"></script>-->
+<script src="../../statics/js/user/my_share.js"></script>
+<script src="../../statics/js/user/header.js"></script>
+<!-- Bootstrap framework js -->
+<script src="../../statics/assets/js/bootstrap.min.js"></script>
+<!-- ajax-mail js -->
+<script src="../../statics/assets/js/ajax-mail.js"></script>
+<!-- owl.carousel js -->
+<script src="../../statics/assets/js/owl.carousel.min.js"></script>
+<!-- owl.carousel js -->
+<script src="../../statics/assets/js/jquery-ui.min.js"></script>
+<!-- jquery.nivo.slider js -->
+<script src="../../statics/assets/js/jquery.nivo.slider.pack.js"></script>
+<!-- All js plugins included in this file. -->
+<script src="../../statics/assets/js/plugins.js"></script>
+<!-- Main js file that contents all jQuery plugins activation. -->
+<script src="../../statics/assets/js/main.js"></script>
+
+
+<script src="../../statics/js/plugins/layer/layer.js"></script>
+<script src="../../statics/js/plugins/webuploader-0.1.5/webuploader.min.js"></script>
+<script src="../../statics/js/imageWebUploader/js/imageWebUploader.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bsp.dao.LoanableBookMapper" >
+  <resultMap id="BaseResultMap" type="com.bsp.entity.LoanableBook" >
+    <id column="lb_id" property="lbId" jdbcType="INTEGER" />
+    <result column="lb_name" property="lbName" jdbcType="VARCHAR" />
+    <result column="lb_author" property="lbAuthor" jdbcType="VARCHAR" />
+    <result column="lb_publishing" property="lbPublishing" jdbcType="VARCHAR" />
+    <result column="isbn" property="isbn" jdbcType="VARCHAR" />
+    <result column="lb_duratuin" property="lbDuratuin" jdbcType="INTEGER" />
+    <result column="lb_number" property="lbNumber" jdbcType="INTEGER" />
+    <result column="left" property="left" jdbcType="INTEGER" />
+    <result column="image_path" property="imagePath" jdbcType="VARCHAR" />
+    <result column="lb_comment" property="lbComment" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="open_loan_time" property="openLoanTime" jdbcType="TIMESTAMP" />
+    <result column="total_lending" property="totalLending" jdbcType="INTEGER" />
+    <result column="lb_status" property="lbStatus" jdbcType="TINYINT" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+	<association property="secondaryClassification" column="sc_id" javaType="SecondaryClassification" select="com.bsp.dao.SecondaryClassificationMapper.selectByPrimaryKey" />
+    <association property="user" column="uuid" javaType="User" select="com.bsp.dao.UserMapper.selectByPrimaryKey" />
+  </resultMap>
+   <sql id="Base_Column_List" >
+    loanable_book.lb_id, loanable_book.lb_name, loanable_book.lb_author, loanable_book.lb_publishing, loanable_book.isbn, 
+    loanable_book.lb_duratuin, loanable_book.lb_number, loanable_book.image_path, loanable_book.lb_comment, 
+    loanable_book.phone, loanable_book.open_loan_time, loanable_book.total_lending, loanable_book.lb_status, 
+    loanable_book.is_delete, loanable_book.sc_id, loanable_book.uuid, loanable_book.left
+  </sql>
+  <!-- 高级+分页查询的where语句块 -->
+  <sql id="where_of_query">
+	<where>
+		<if test="search!=null">AND (
+			loanable_book.lb_name LIKE CONCAT('%',#{search},'%')
+			OR loanable_book.lb_author LIKE CONCAT('%',#{search},'%')
+			OR loanable_book.lb_comment LIKE CONCAT('%',#{search},'%')
+			OR loanable_book.lb_publishing LIKE CONCAT('%',#{search},'%')
+			OR loanable_book.isbn LIKE #{search}
+			OR sc.sc_name LIKE CONCAT('%',#{search},'%')
+			OR pc.pc_name LIKE CONCAT('%',#{search},'%')
+		)
+		</if>
+		<if test="secondaryClassification!=null">AND loanable_book.sc_id=#{secondaryClassification.scId}</if>
+		<if test="secondaryClassification==null">
+			<if test="primaryClassification!=null">AND pc.pc_id=#{primaryClassification.pcId}</if>
+		</if>
+		<if test="uuid!=null">AND loanable_book.uuid=#{uuid}</if>
+		AND loanable_book.is_delete=0
+	</where>
+  </sql>
+  <select id="getTotalCount" resultType="java.lang.Integer" parameterType="com.bsp.dto.LoanableBookQueryObject" >
+    select COUNT(*)
+    from loanable_book 
+    left join secondary_classification sc on loanable_book.sc_id = sc.sc_id
+    left join primary_classification pc on sc.pc_id = pc.pc_id
+    <include refid="where_of_query" />
+  </select>
+  <select id="selectByQueryObject" resultMap="BaseResultMap" parameterType="com.bsp.dto.LoanableBookQueryObject" >
+    select
+	<include refid="Base_Column_List" />
+    from loanable_book 
+    left join secondary_classification sc on loanable_book.sc_id = sc.sc_id
+    left join primary_classification pc on sc.pc_id = pc.pc_id
+    <include refid="where_of_query" />
+	<if test="sort!=null">
+		ORDER BY ${sort}
+		<if test="order!=null">${order}</if>
+	</if>
+    <if test="startIndex>-1">
+		LIMIT #{startIndex},#{limit}
+	</if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from loanable_book
+    where lb_id = #{lbId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from loanable_book
+    where lb_id = #{lbId,jdbcType=INTEGER}
+  </delete>
+   <insert id="insert" parameterType="com.bsp.entity.LoanableBook" >
+    insert into loanable_book (lb_id, lb_name, lb_author, 
+      lb_publishing, isbn, lb_duratuin, 
+      lb_number, image_path, lb_comment, 
+      phone, open_loan_time, total_lending, 
+      lb_status, is_delete, sc_id, 
+      uuid, `left`)
+    values (#{lbId,jdbcType=INTEGER}, #{lbName,jdbcType=VARCHAR}, #{lbAuthor,jdbcType=VARCHAR}, 
+      #{lbPublishing,jdbcType=VARCHAR}, #{isbn,jdbcType=VARCHAR}, #{lbDuratuin,jdbcType=INTEGER}, 
+      #{lbNumber,jdbcType=INTEGER}, #{imagePath,jdbcType=VARCHAR}, #{lbComment,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{openLoanTime,jdbcType=TIMESTAMP}, #{totalLending,jdbcType=INTEGER}, 
+      #{lbStatus,jdbcType=TINYINT}, #{isDelete,jdbcType=TINYINT}, #{secondaryClassification.scId,jdbcType=INTEGER}, 
+      #{user.uuid,jdbcType=VARCHAR},#{left,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bsp.entity.LoanableBook" >
+    insert into loanable_book
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="lbId != null" >
+        lb_id,
+      </if>
+      <if test="lbName != null" >
+        lb_name,
+      </if>
+      <if test="lbAuthor != null" >
+        lb_author,
+      </if>
+      <if test="lbPublishing != null" >
+        lb_publishing,
+      </if>
+      <if test="isbn != null" >
+        isbn,
+      </if>
+      <if test="lbDuratuin != null" >
+        lb_duratuin,
+      </if>
+      <if test="lbNumber != null" >
+        lb_number,
+      </if>
+      <if test="imagePath != null" >
+        image_path,
+      </if>
+      <if test="lbComment != null" >
+        lb_comment,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="openLoanTime != null" >
+        open_loan_time,
+      </if>
+      <if test="totalLending != null" >
+        total_lending,
+      </if>
+      <if test="lbStatus != null" >
+        lb_status,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="secondaryClassification != null" >
+        sc_id,
+      </if>
+      <if test="user != null" >
+        uuid,
+      </if>
+      <if test="left != null" >
+        `left`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="lbId != null" >
+        #{lbId,jdbcType=INTEGER},
+      </if>
+      <if test="lbName != null" >
+        #{lbName,jdbcType=VARCHAR},
+      </if>
+      <if test="lbAuthor != null" >
+        #{lbAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="lbPublishing != null" >
+        #{lbPublishing,jdbcType=VARCHAR},
+      </if>
+      <if test="isbn != null" >
+        #{isbn,jdbcType=VARCHAR},
+      </if>
+      <if test="lbDuratuin != null" >
+        #{lbDuratuin,jdbcType=INTEGER},
+      </if>
+      <if test="lbNumber != null" >
+        #{lbNumber,jdbcType=INTEGER},
+      </if>
+      <if test="imagePath != null" >
+        #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="lbComment != null" >
+        #{lbComment,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="openLoanTime != null" >
+        #{openLoanTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalLending != null" >
+        #{totalLending,jdbcType=INTEGER},
+      </if>
+      <if test="lbStatus != null" >
+        #{lbStatus,jdbcType=TINYINT},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="secondaryClassification != null" >
+        #{secondaryClassification.scId,jdbcType=INTEGER},
+      </if>
+      <if test="user != null" >
+        #{user.uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="left != null" >
+        #{left,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bsp.entity.LoanableBook" >
+    update loanable_book
+    <set >
+      <if test="lbName != null" >
+        lb_name = #{lbName,jdbcType=VARCHAR},
+      </if>
+      <if test="lbAuthor != null" >
+        lb_author = #{lbAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="lbPublishing != null" >
+        lb_publishing = #{lbPublishing,jdbcType=VARCHAR},
+      </if>
+      <if test="isbn != null" >
+        isbn = #{isbn,jdbcType=VARCHAR},
+      </if>
+      <if test="lbDuratuin != null" >
+        lb_duratuin = #{lbDuratuin,jdbcType=INTEGER},
+      </if>
+      <if test="lbNumber != null" >
+        lb_number = #{lbNumber,jdbcType=INTEGER},
+      </if>
+      <if test="imagePath != null" >
+        image_path = #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="lbComment != null" >
+        lb_comment = #{lbComment,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="openLoanTime != null" >
+        open_loan_time = #{openLoanTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalLending != null" >
+        total_lending = #{totalLending,jdbcType=INTEGER},
+      </if>
+      <if test="lbStatus != null" >
+        lb_status = #{lbStatus,jdbcType=TINYINT},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="secondaryClassification != null" >
+        sc_id = #{secondaryClassification.scId,jdbcType=INTEGER},
+      </if>
+      <if test="user != null" >
+        uuid = #{user.uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="left != null" >
+        `left` = #{left,jdbcType=INTEGER},
+      </if>
+    </set>
+    where lb_id = #{lbId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bsp.entity.LoanableBook" >
+    update loanable_book
+    set lb_name = #{lbName,jdbcType=VARCHAR},
+      lb_author = #{lbAuthor,jdbcType=VARCHAR},
+      lb_publishing = #{lbPublishing,jdbcType=VARCHAR},
+      isbn = #{isbn,jdbcType=VARCHAR},
+      lb_duratuin = #{lbDuratuin,jdbcType=INTEGER},
+      lb_number = #{lbNumber,jdbcType=INTEGER},
+      image_path = #{imagePath,jdbcType=VARCHAR},
+      lb_comment = #{lbComment,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      open_loan_time = #{openLoanTime,jdbcType=TIMESTAMP},
+      total_lending = #{totalLending,jdbcType=INTEGER},
+      lb_status = #{lbStatus,jdbcType=TINYINT},
+      is_delete = #{isDelete,jdbcType=TINYINT},
+      sc_id = #{secondaryClassification.scId,jdbcType=INTEGER},
+      uuid = #{user.uuid,jdbcType=VARCHAR},
+      `left` = #{left,jdbcType=INTEGER}
+    where lb_id = #{lbId,jdbcType=INTEGER}
+  </update>
+</mapper>

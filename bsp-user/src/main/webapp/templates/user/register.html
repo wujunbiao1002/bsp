@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>肇庆学院图书共享平台-注册</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="../../statics/assets/css/bootstrap.min.css">
+    <!--external css-->
+    <link href="../../statics/assets/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- Custom styles for this template -->
+    <link href="../../statics/login/style.css" rel="stylesheet">
+    <link href="../../statics/login/style-responsive.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../../statics/assets/style.css">
+    <link rel="stylesheet" href="../../statics/css/common_user.css">
+
+    <link rel="stylesheet" href="../../statics/js/plugins/bootstrapvalidator/css/bootstrapValidator.min.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="../../statics/js/html5shiv.js"></script>
+    <script src="../../statics/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<!-- **********************************************************************************************************************************************************
+MAIN CONTENT
+*********************************************************************************************************************************************************** -->
+<div id="register-app" v-cloak>
+    <div class="container">
+
+        <div v-show="step==1" class="form-login">
+            <h2 class="form-login-heading">注册</h2>
+            <div class="login-wrap form-horizontal">
+                <div class="form-group">
+                    <label for="vcode" class="col-sm-2 control-label">验证码</label>
+                    <div class="col-sm-10">
+                        <input v-model="step1.vcode" type="text" class="form-control" id="vcode" placeholder="验证码" style="width: 75px;display: inline-block" />
+                        <img id="codeImg" src="/verifyCode" onclick="javascript:_change();" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail" class="col-sm-2 control-label">邮箱</label>
+                    <div class="col-sm-10">
+                        <div class="input-group">
+                            <input @change="checkMail" v-model="step1.email" id="inputEmail" type="text" class="form-control" placeholder="邮箱">
+                            <span class="input-group-btn">
+                                <button @click="sendMail" class="btn btn-default" :disabled="step1.seconds!=0" type="button">获取验证码<span v-show="step1.seconds>0">({{step1.seconds}}s)</span></button>
+                            </span>
+                        </div><!-- /input-group -->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input  v-model="step1.mailVcode" type="text" class="form-control" id="inputVcode" placeholder="邮箱验证码">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <span class="text-danger" v-html="step1.msg"></span>
+                    </div>
+                </div>
+                <button @click="checkMailCode" :disabled="step1.nextStep" class="btn btn-theme btn-block" ><i class="fa fa-arrow-right"></i>&nbsp;下一步</button>
+                <hr>
+                <div class="registration">
+                    已经拥有账号?<br/>
+                    <a class="" href="/login">
+                        点击登录
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div v-show="step==2" class="form-login">
+            <h2 class="form-login-heading">完善资料</h2>
+            <form id="register-form" class="login-wrap form-horizontal">
+                <div class="form-group">
+                    <label for="inputPwd" class="col-sm-2 control-label">密码<span class="text-danger">&nbsp;*</span></label>
+                    <div class="col-sm-10">
+                        <input name="pwd" v-model="step2.params.password1" type="password" class="form-control" id="inputPwd" placeholder="密码">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputConfirm" class="col-sm-2 control-label">确认<span class="text-danger">&nbsp;*</span></label>
+                    <div class="col-sm-10">
+                        <input name="cpwd" v-model="step2.params.password2" type="password" class="form-control" id="inputConfirm" placeholder="确认密码">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputNickName" class="col-sm-2 control-label">昵称</label>
+                    <div class="col-sm-10">
+                        <input name="nickName" v-model="step2.params.uNickname" type="text" class="form-control" id="inputNickName" placeholder="昵称">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputGender" class="col-sm-2 control-label">性别</label>
+                    <div class="col-sm-3">
+                        <select name="gender" v-model="step2.params.uSex" id="inputGender" class="form-control">
+                            <option value=""></option>
+                            <option value="男">男</option>
+                            <option value="女">女</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPhone" class="col-sm-2 control-label">手机号</label>
+                    <div class="col-sm-10">
+                        <input name="phone" v-model="step2.params.uPhone" type="text" class="form-control" id="inputPhone" placeholder="手机号">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress" class="col-sm-2 control-label">住址</label>
+                    <div class="col-sm-10">
+                        <input name="address" v-model="step2.params.uAddress" type="text" class="form-control" id="inputAddress" placeholder="联系地址">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputQQ" class="col-sm-2 control-label">QQ号</label>
+                    <div class="col-sm-10">
+                        <input name="qq" v-model="step2.params.uQq" type="text" class="form-control" id="inputQQ" placeholder="QQ号">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputWechat" class="col-sm-2 control-label">微信号</label>
+                    <div class="col-sm-10">
+                        <input name="wechat" v-model="step2.params.uWechat" type="text" class="form-control" id="inputWechat" placeholder="微信号">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputSignature" class="col-sm-2 control-label">签名</label>
+                    <div class="col-sm-10">
+                        <input name="signatrue" v-model="step2.params.uSignature" type="text" class="form-control" id="inputSignature" placeholder="个性签名">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <span class="text-danger" v-html="step2.msg"></span>
+                    </div>
+                </div>
+                <button @click="register" class="btn btn-theme btn-block" ><i class="fa fa-check"></i>&nbsp;完成注册</button>
+            </form>
+        </div>
+
+        <div v-show="step==3" class="form-login">
+            <div class="login-wrap form-horizontal">
+                <h2 class="text-success text-center"><i class="fa fa-check-circle"></i>&nbsp;注册成功</h2>
+                <h3 class="text-center"><a href="/login">点击登录</a></h3>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- js placed at the end of the document so the pages load faster -->
+<script src="../../statics/js/jquery-3.3.1.js"></script>
+<script src="../../statics/js/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../statics/js/plugins/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+
+<!--BACKSTRETCH-->
+<!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
+<script type="text/javascript" src="../../statics/js/jquery.backstretch.min.js"></script>
+<script>
+    $.backstretch("../../statics/img/login-bg.jpg", {speed: 500});
+</script>
+<!-- layer -->
+<script src="../../statics/js/plugins/layer/layer.js"></script>
+
+<script src="../../statics/js/commons/common.js"></script>
+<script src="../../statics/js/vue.js"></script>
+<script src="../../statics/js/user/register.js"></script>
+
+</body>
+</html>

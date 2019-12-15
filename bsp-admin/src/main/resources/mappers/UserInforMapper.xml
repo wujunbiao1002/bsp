@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bsp.dao.UserInforMapper" >
+  <resultMap id="BaseResultMap" type="com.bsp.entity.UserInfor" >
+    <id column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="u_nickname" property="uNickname" jdbcType="VARCHAR" />
+    <result column="u_sex" property="uSex" jdbcType="VARCHAR" />
+    <result column="u_phone" property="uPhone" jdbcType="VARCHAR" />
+    <result column="u_address" property="uAddress" jdbcType="VARCHAR" />
+    <result column="u_qq" property="uQq" jdbcType="VARCHAR" />
+    <result column="u_wechat" property="uWechat" jdbcType="VARCHAR" />
+    <result column="u_headpath" property="uHeadpath" jdbcType="VARCHAR" />
+    <result column="u_signature" property="uSignature" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    uuid, u_nickname, u_sex, u_phone, u_address, u_qq, u_wechat, u_headpath, u_signature
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_infor
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from user_infor
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bsp.entity.UserInfor" >
+    insert into user_infor (uuid, u_nickname, u_sex, 
+      u_phone, u_address, u_qq, 
+      u_wechat, u_headpath, u_signature
+      )
+    values (#{uuid,jdbcType=VARCHAR}, #{uNickname,jdbcType=VARCHAR}, #{uSex,jdbcType=VARCHAR}, 
+      #{uPhone,jdbcType=VARCHAR}, #{uAddress,jdbcType=VARCHAR}, #{uQq,jdbcType=VARCHAR}, 
+      #{uWechat,jdbcType=VARCHAR}, #{uHeadpath,jdbcType=VARCHAR}, #{uSignature,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bsp.entity.UserInfor" >
+    insert into user_infor
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        uuid,
+      </if>
+      <if test="uNickname != null" >
+        u_nickname,
+      </if>
+      <if test="uSex != null" >
+        u_sex,
+      </if>
+      <if test="uPhone != null" >
+        u_phone,
+      </if>
+      <if test="uAddress != null" >
+        u_address,
+      </if>
+      <if test="uQq != null" >
+        u_qq,
+      </if>
+      <if test="uWechat != null" >
+        u_wechat,
+      </if>
+      <if test="uHeadpath != null" >
+        u_headpath,
+      </if>
+      <if test="uSignature != null" >
+        u_signature,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="uNickname != null" >
+        #{uNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="uSex != null" >
+        #{uSex,jdbcType=VARCHAR},
+      </if>
+      <if test="uPhone != null" >
+        #{uPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="uAddress != null" >
+        #{uAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="uQq != null" >
+        #{uQq,jdbcType=VARCHAR},
+      </if>
+      <if test="uWechat != null" >
+        #{uWechat,jdbcType=VARCHAR},
+      </if>
+      <if test="uHeadpath != null" >
+        #{uHeadpath,jdbcType=VARCHAR},
+      </if>
+      <if test="uSignature != null" >
+        #{uSignature,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bsp.entity.UserInfor" >
+    update user_infor
+    <set >
+      <if test="uNickname != null" >
+        u_nickname = #{uNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="uSex != null" >
+        u_sex = #{uSex,jdbcType=VARCHAR},
+      </if>
+      <if test="uPhone != null" >
+        u_phone = #{uPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="uAddress != null" >
+        u_address = #{uAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="uQq != null" >
+        u_qq = #{uQq,jdbcType=VARCHAR},
+      </if>
+      <if test="uWechat != null" >
+        u_wechat = #{uWechat,jdbcType=VARCHAR},
+      </if>
+      <if test="uHeadpath != null" >
+        u_headpath = #{uHeadpath,jdbcType=VARCHAR},
+      </if>
+      <if test="uSignature != null" >
+        u_signature = #{uSignature,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bsp.entity.UserInfor" >
+    update user_infor
+    set u_nickname = #{uNickname,jdbcType=VARCHAR},
+      u_sex = #{uSex,jdbcType=VARCHAR},
+      u_phone = #{uPhone,jdbcType=VARCHAR},
+      u_address = #{uAddress,jdbcType=VARCHAR},
+      u_qq = #{uQq,jdbcType=VARCHAR},
+      u_wechat = #{uWechat,jdbcType=VARCHAR},
+      u_headpath = #{uHeadpath,jdbcType=VARCHAR},
+      u_signature = #{uSignature,jdbcType=VARCHAR}
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getSexSum" resultType="int" parameterType="java.lang.String" >
+      SELECT COUNT(*) FROM user_infor where u_sex = #{sex}
+  </select>
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bsp.dao.MappingMapper" >
+  <resultMap id="BaseResultMap" type="com.bsp.entity.Mapping" >
+    <id column="mapkey" property="mapkey" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.bsp.entity.Mapping" extends="BaseResultMap" >
+    <result column="m_value" property="mValue" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    mapkey
+  </sql>
+  <sql id="Blob_Column_List" >
+    m_value
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from mapping
+    where mapkey = #{mapkey,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from mapping
+    where mapkey = #{mapkey,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bsp.entity.Mapping" >
+    insert into mapping (mapkey, m_value)
+    values (#{mapkey,jdbcType=VARCHAR}, #{mValue,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bsp.entity.Mapping" >
+    insert into mapping
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mapkey != null" >
+        mapkey,
+      </if>
+      <if test="mValue != null" >
+        m_value,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mapkey != null" >
+        #{mapkey,jdbcType=VARCHAR},
+      </if>
+      <if test="mValue != null" >
+        #{mValue,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bsp.entity.Mapping" >
+    update mapping
+    <set >
+      <if test="mValue != null" >
+        m_value = #{mValue,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where mapkey = #{mapkey,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bsp.entity.Mapping" >
+    update mapping
+    set m_value = #{mValue,jdbcType=LONGVARCHAR}
+    where mapkey = #{mapkey,jdbcType=VARCHAR}
+  </update>
+</mapper>

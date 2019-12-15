@@ -1,0 +1,74 @@
+{
+	"total": 200,
+	"page": 10,
+	"rows": [	
+			{
+				"lbId": 1,
+				"lbName": "java手册",
+				"lbAuthor": "汤姆",
+				"lbPublishing": "清华大学出版社",
+				"isbn": 1,
+				"lbDuratuin": 168,
+				"lbNumber": "1",
+				"imagePath": "../../statics/assets/img/product/1.jpg",
+				"lbComment": "java从入门到放弃的手册",
+				"phone": 17876251111
+				
+			}, {
+				"lbId": 2,
+				"lbName": "C语言手册",
+				"lbAuthor": "汤姆",
+				"lbPublishing": "清华大学出版社",
+				"isbn": 1,
+				"lbDuratuin": 168,
+				"lbNumber": "1",
+				"imagePath": "../../statics/assets/img/product/2.jpg",
+				"lbComment": "C语言从入门到放弃的手册",
+				"phone": 17876251111
+			}, {
+				"lbId": 3,
+				"lbName": "C#手册",
+				"lbAuthor": "汤姆",
+				"lbPublishing": "清华大学出版社",
+				"isbn": 1,
+				"lbDuratuin": 168,
+				"lbNumber": "1",
+				"imagePath": "../../statics/assets/img/product/3.jpg",
+				"lbComment": "C#从入门到放弃的手册",
+				"phone": 17876251111
+			}, {
+				"lbId": 4,
+				"lbName": "青少年教育手册",
+				"lbAuthor": "汤姆",
+				"lbPublishing": "清华大学出版社",
+				"isbn": 1,
+				"lbDuratuin": 168,
+				"lbNumber": "1",
+				"imagePath": "../../statics/assets/img/product/4.jpg",
+				"lbComment": "教育青少年",
+				"phone": 17876251111
+			}, {
+				"lbId": 5,
+				"lbName": "java手册完全版",
+				"lbAuthor": "汤姆",
+				"lbPublishing": "清华大学出版社",
+				"isbn": 1,
+				"lbDuratuin": 168,
+				"lbNumber": "1",
+				"imagePath": "../../statics/assets/img/product/5.jpg",
+				"lbComment": "java从入门到放弃的手册",
+				"phone": 17876251111
+			}, {
+				"lbId": 6,
+				"lbName": "java手册整合版",
+				"lbAuthor": "汤姆",
+				"lbPublishing": "清华大学出版社",
+				"isbn": 1,
+				"lbDuratuin": 168,
+				"lbNumber": "1",
+				"imagePath": "../../statics/assets/img/product/6.jpg",
+				"lbComment": "java从入门到放弃的手册",
+				"phone": 17876251111
+			}
+	]
+}

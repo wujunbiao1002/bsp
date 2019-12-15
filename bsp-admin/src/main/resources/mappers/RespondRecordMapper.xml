@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bsp.dao.RespondRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.bsp.entity.RespondRecord" >
+    <id column="rr_id" property="rrId" jdbcType="INTEGER" />
+    <result column="respond_time" property="respondTime" jdbcType="TIMESTAMP" />
+    <result column="send_to_time" property="sendToTime" jdbcType="TIMESTAMP" />
+    <result column="take_away_time" property="takeAwayTime" jdbcType="TIMESTAMP" />
+    <result column="expected_return_time" property="expectedReturnTime" jdbcType="TIMESTAMP" />
+    <result column="actual_return_time" property="actualReturnTime" jdbcType="TIMESTAMP" />
+    <result column="take_back_time" property="takeBackTime" jdbcType="TIMESTAMP" />
+    <result column="rr_struts" property="rrStruts" jdbcType="TINYINT" />
+    <result column="respond_phone" property="respondPhone" jdbcType="VARCHAR" />
+    <association property="demandBook" column="db_id" javaType="DemandBook" select="com.bsp.dao.DemandBookMapper.selectByPrimaryKey" />
+    <association property="user" column="uuid" javaType="User" select="com.bsp.dao.UserMapper.selectByPrimaryKey" />
+    <association property="receiveAdmin" column="receive_uuid" javaType="Administrator" select="com.bsp.dao.AdministratorMapper.selectByPrimaryKey" />
+    <association property="backAdmin" column="back_uuid" javaType="Administrator" select="com.bsp.dao.AdministratorMapper.selectByPrimaryKey" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    rr_id, respond_time, send_to_time, take_away_time, expected_return_time, actual_return_time, 
+    take_back_time, rr_struts, respond_phone, db_id, uuid, receive_uuid, back_uuid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from respond_record
+    where rr_id = #{rrId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from respond_record
+    where rr_id = #{rrId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bsp.entity.RespondRecord" >
+    insert into respond_record (rr_id, respond_time, send_to_time, 
+      take_away_time, expected_return_time, actual_return_time, 
+      take_back_time, rr_struts, respond_phone, 
+      db_id, uuid, receive_uuid, 
+      back_uuid)
+    values (#{rrId,jdbcType=INTEGER}, #{respondTime,jdbcType=TIMESTAMP}, #{sendToTime,jdbcType=TIMESTAMP}, 
+      #{takeAwayTime,jdbcType=TIMESTAMP}, #{expectedReturnTime,jdbcType=TIMESTAMP}, #{actualReturnTime,jdbcType=TIMESTAMP}, 
+      #{takeBackTime,jdbcType=TIMESTAMP}, #{rrStruts,jdbcType=TINYINT}, #{respondPhone,jdbcType=VARCHAR}, 
+      #{demandBook.dbId,jdbcType=INTEGER}, #{user.uuid,jdbcType=VARCHAR}, #{receiveAdmin.aUuid,jdbcType=VARCHAR}, 
+      #{backAdmin.aUuid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bsp.entity.RespondRecord" >
+    insert into respond_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rrId != null" >
+        rr_id,
+      </if>
+      <if test="respondTime != null" >
+        respond_time,
+      </if>
+      <if test="sendToTime != null" >
+        send_to_time,
+      </if>
+      <if test="takeAwayTime != null" >
+        take_away_time,
+      </if>
+      <if test="expectedReturnTime != null" >
+        expected_return_time,
+      </if>
+      <if test="actualReturnTime != null" >
+        actual_return_time,
+      </if>
+      <if test="takeBackTime != null" >
+        take_back_time,
+      </if>
+      <if test="rrStruts != null" >
+        rr_struts,
+      </if>
+      <if test="respondPhone != null" >
+        respond_phone,
+      </if>
+      <if test="demandBook.dbId != null" >
+        db_id,
+      </if>
+      <if test="user.uuid != null" >
+        uuid,
+      </if>
+      <if test="receiveAdmin.aUuid != null" >
+        receive_uuid,
+      </if>
+      <if test="backAdmin.aUuid != null" >
+        back_uuid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rrId != null" >
+        #{rrId,jdbcType=INTEGER},
+      </if>
+      <if test="respondTime != null" >
+        #{respondTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendToTime != null" >
+        #{sendToTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="takeAwayTime != null" >
+        #{takeAwayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expectedReturnTime != null" >
+        #{expectedReturnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actualReturnTime != null" >
+        #{actualReturnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="takeBackTime != null" >
+        #{takeBackTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rrStruts != null" >
+        #{rrStruts,jdbcType=TINYINT},
+      </if>
+      <if test="respondPhone != null" >
+        #{respondPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="demandBook.dbId != null" >
+        #{demandBook.dbId,jdbcType=INTEGER},
+      </if>
+      <if test="user.uuid != null" >
+        #{user.uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveAdmin.aUuid != null" >
+        #{receiveAdmin.aUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="backAdmin.aUuid != null" >
+        #{backAdmin.aUuid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bsp.entity.RespondRecord" >
+    update respond_record
+    <set >
+      <if test="respondTime != null" >
+        respond_time = #{respondTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendToTime != null" >
+        send_to_time = #{sendToTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="takeAwayTime != null" >
+        take_away_time = #{takeAwayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expectedReturnTime != null" >
+        expected_return_time = #{expectedReturnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actualReturnTime != null" >
+        actual_return_time = #{actualReturnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="takeBackTime != null" >
+        take_back_time = #{takeBackTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rrStruts != null" >
+        rr_struts = #{rrStruts,jdbcType=TINYINT},
+      </if>
+      <if test="respondPhone != null" >
+        respond_phone = #{respondPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="demandBook.dbId != null" >
+        db_id = #{demandBook.dbId,jdbcType=INTEGER},
+      </if>
+      <if test="user.uuid != null" >
+        uuid = #{user.uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveAdmin.aUuid != null" >
+        receive_uuid = #{receiveAdmin.aUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="backAdmin.aUuid != null" >
+        back_uuid = #{backAdmin.aUuid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where rr_id = #{rrId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bsp.entity.RespondRecord" >
+    update respond_record
+    set respond_time = #{respondTime,jdbcType=TIMESTAMP},
+      send_to_time = #{sendToTime,jdbcType=TIMESTAMP},
+      take_away_time = #{takeAwayTime,jdbcType=TIMESTAMP},
+      expected_return_time = #{expectedReturnTime,jdbcType=TIMESTAMP},
+      actual_return_time = #{actualReturnTime,jdbcType=TIMESTAMP},
+      take_back_time = #{takeBackTime,jdbcType=TIMESTAMP},
+      rr_struts = #{rrStruts,jdbcType=TINYINT},
+      respond_phone = #{respondPhone,jdbcType=VARCHAR},
+      db_id = #{demandBook.dbId,jdbcType=INTEGER},
+      uuid = #{user.uuid,jdbcType=VARCHAR},
+      receive_uuid = #{receiveAdmin.aUuid,jdbcType=VARCHAR},
+      back_uuid = #{backAdmin.aUuid,jdbcType=VARCHAR}
+    where rr_id = #{rrId,jdbcType=INTEGER}
+  </update>
+</mapper>

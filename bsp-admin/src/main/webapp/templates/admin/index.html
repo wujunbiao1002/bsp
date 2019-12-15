@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>图书共享平台后台管理</title>
+
+    <!--<link rel="stylesheet" href="layui/css/layui.css" />-->
+    <!-- Bootstrap core CSS -->
+    <link href="../../statics/assets/css/bootstrap.css" rel="stylesheet">
+    <!--external css-->
+    <link href="../../statics/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../../statics/assets/js/gritter/css/jquery.gritter.css" />
+    <link rel="stylesheet" type="text/css" href="../../statics/assets/lineicons/style.css">
+    <!-- Custom styles for this template -->
+    <link href="../../statics/assets/css/style.css" rel="stylesheet">
+    <link href="../../statics/assets/css/style-responsive.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../statics/css/style_admin.css">
+
+      <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../../statics/assets/js/html5shiv.js"></script>
+      <script src="../../statics/assets/js/respond.min.js"></script>
+      <![endif]-->
+  </head>
+
+  <body>
+	
+  	<section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+      <header class="header black-bg">
+	          <div class="sidebar-toggle-box">
+	              <div class="fa fa-bars tooltips" data-placement="right" data-original-title="隐藏/显示菜单"></div>
+	          </div>
+            <!--logo start-->
+            <a href="/" class="logo"><b>图书共享平台后台管理</b></a>
+            <!--logo end-->
+            <div class="nav notify-row" id="top_menu">
+                <!--  notification start -->
+                <ul class="nav top-menu" id="header-app" v-cloak>
+                    <!-- inbox dropdown start-->
+                    <!--<li id="header_inbox_bar" :title="newMessages.num+'条消息'"  class="dropdown" >-->
+                        <!--<a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">-->
+                            <!--<i class="fa fa-envelope-o"></i>-->
+                            <!--<span class="badge bg-theme" v-html="numberFormat(newMessages.num)"></span>-->
+                        <!--</a>-->
+                        <!--<ul class="dropdown-menu dropdown-menu-right extended inbox">-->
+                            <!--<div class="notify-arrow notify-arrow-green"></div>-->
+                            <!--<li>-->
+                                <!--<p class="green" v-if="newMessages.num>0">您有 {{newMessages.num}} 条未读消息</p>-->
+                                <!--<p class="green" v-else="">暂无未读消息</p>-->
+                            <!--</li>-->
+                            <!--<li v-for="message in newMessages.messages" >-->
+                                <!--<a href="javascript:;">-->
+                                    <!--<span class="photo"><img alt="avatar" :src="message.headerUrl"></span>-->
+                                    <!--<span class="time">时间：{{timeFormat(message.timeStamp)}}</span>-->
+                                    <!--<span class="subject">-->
+                                    	<!--<span class="from">来自：{{message.from}}</span>-->
+                                    <!--</span>-->
+                                    <!--<span class="message">-->
+                                        	<!--标题：{{titleFormat(message.title)}}-->
+                                    <!--</span>-->
+                                <!--</a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a href="javascript:;">查看所有消息</a>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                    <!--</li>-->
+                    <!-- inbox dropdown end -->
+                    <!-- settings start -->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" @click="helps" title="帮助" href="javascript:;">
+                            <i class="fa fa-question-circle"></i>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" @click="logout" title="退出登录" href="javascript:;">
+                            <i class="fa fa-sign-out"></i>
+                        </a>
+                    </li>
+                    <!-- settings end -->
+                </ul>
+                <!--  notification end -->
+            </div>
+      	  	<!--<div class="top-menu">
+            	<ul class="nav pull-right top-menu">
+                    <li><a class="logout" href="login.html">Logout</a></li>
+            	</ul>
+            </div>--> 
+      </header>
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+   		<!-- sidebar app start -->
+      <aside>
+          <div id="sidebar" class="nav-collapse" >
+              <!-- sidebar menu start-->
+              <ul class="sidebar-menu" id="nav-accordion">
+              <div  id="sidebar-app" v-cloak>
+              	  <p class="centered"><a href="profile.html"><img src="../../statics/assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
+              	  <h5 class="centered" title="账户信息"><a @click="profileEdit" href="javascript:;"><span>{{user.aId}}</span></a></h5>
+                  <li class="mt">
+                      <a class="active" @click="go('/p/indexEcharts','主页')" href="javascript:;">
+                          <i class="fa fa-dashboard"></i>
+                          <span>主页</span>
+                      </a>
+                  </li>
+
+                  <li class="sub-menu">
+                      <a @click="go('/p/checkLoanableBookPage','共享审核')" href="javascript:;">
+                          <i class="fa fa-desktop"></i>
+                          <span>图书审核</span>
+                      </a>
+                  </li>
+
+                  <li class="sub-menu">
+                      <a  @click="go('/p/orderProccessPage','订单管理')" href="javascript:;">
+                          <i class="fa fa-cogs"></i>
+                          <span>订单管理</span>
+                      </a>
+                  </li>
+                  <li class="sub-menu">
+                      <a  @click="go('/p/loanableBookPage','图书管理')" href="javascript:;" >
+                          <i class="fa fa-book"></i>
+                          <span>图书管理</span>
+                      </a>
+                  </li>
+                  <li class="sub-menu">
+                      <a href="javascript:;">
+                          <i class="fa fa-tasks"></i>
+                          <span>分类管理</span>
+                      </a>
+                      <ul class="sub">
+                          <li><a @click="go('/p/primaryClassificationPage','分类管理-一级分类')" href="javascript:;">一级分类</a></li>
+                          <li><a @click="go('/p/secondaryClassificationPage','分类管理-二级分类')" href="javascript:;">二级分类</a></li>
+                      </ul>
+                  </li>
+                  <li class="sub-menu">
+                      <a @click="go('/p/donateBookPage','捐赠管理')" href="javascript:;">
+                          <i class="fa fa-share-alt-square"></i>
+                          <span>捐赠管理</span>
+                      </a>
+                  </li>
+                  <li class="sub-menu">
+                      <a href="javascript:;" >
+                          <i class="fa fa-user"></i>
+                          <span>用户管理</span>
+                      </a>
+                      <ul class="sub">
+                          <li><a @click="go('/p/userPage','用户管理-用户')" href="javascript:;">用户</a></li>
+                          <li><a @click="go('/p/adminPage','用户管理-管理员')" href="javascript:;">管理员</a></li>
+                      </ul>
+                  </li>
+                  <li class="sub-menu">
+                      <a href="javascript:;" >
+                          <i class="fa fa-database"></i>
+                          <span>数据统计</span>
+                      </a>
+                      <ul class="sub">
+                          <li><a @click="go('/p/indexEcharts','数据统计-综合数据统计')" href="javascript:;">综合数据统计</a></li>
+                          <li><a @click="go('/p/classifyBookEcharts','数据统计-分类图书占比')" href="javascript:;">分类图书占比</a></li>
+                          <li><a @click="go('/p/statusEcharts','数据统计-借阅转态数量统计')" href="javascript:;">借阅转态数量统计</a></li>
+                          <li><a @click="go('/p/perMonthSharEcharts','数据统计-月共享书籍数量')" href="javascript:;">月共享书籍数量</a></li>
+                      </ul>
+                  </li>
+                  <li class="sub-menu">
+                      <a @click="go('/p/settings','系统设置')" href="javascript:;" >
+                          <i class="fa fa-cog"></i>
+                          <span>系统设置</span>
+                      </a>
+                  </li>
+              </div>
+              </ul>
+              <!-- sidebar menu end-->
+          </div>
+      </aside>
+      <!--sidebar end-->
+      <!-- sidebar app end -->
+
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+          		<div id="title-app" v-cloak>
+					<h4><i class="fa fa-angle-right"></i> {{title}}</h4>
+				</div>
+              <iframe src="/p/indexEcharts" id="page-content" width="100%" height="720px" frameborder="0" style="margin:0px;"></iframe>
+          </section>
+      </section>
+
+
+      <!--main content end-->
+      <!--footer start-->
+      <!--<footer class="site-footer">
+          <div class="text-center">
+              &copy;肇庆学院图书共享平台
+              <a href="javascript:;" class="go-top">
+                  <i class="fa fa-angle-up"></i>
+              </a>
+          </div>
+      </footer>-->
+      <!--footer end-->
+  </section>
+
+    <script src="../../statics/js/jquery-3.3.1.js"></script>
+    <script src="../../statics/js/plugins/bootstrap/js/bootstrap.js"></script>
+
+    <!-- 模板js -->
+    <!--<script src="../../static/assets/js/jquery.js"></script>-->
+    <!--<script src="../../static/assets/js/jquery-1.8.3.min.js"></script>-->
+    <!--<script src="../../static/assets/js/bootstrap.min.js"></script>-->
+    <!-- 手风琴菜单 -->
+    <script src="../../statics/assets/js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="../../statics/assets/js/jquery.scrollTo.min.js"></script>
+    <script src="../../statics/assets/js/jquery.nicescroll.js"></script>
+    <!--模板js-->
+    <script src="../../statics/assets/js/common-scripts.js"></script>
+    <!-- 提醒插件 -->
+    <script src="../../statics/assets/js/gritter/js/jquery.gritter.js"></script>
+    <script src="../../statics/assets/js/gritter-conf.js"></script>
+    <!-- layer -->
+    <script src="../../statics/js/plugins/layer/layer.js"></script>
+
+    <!-- 欢迎提醒 -->
+		<!--<script type="text/javascript">
+	    $(document).ready(function () {
+	        var unique_id = $.gritter.add({
+	            // (string | mandatory) the heading of the notification
+	            title: '欢迎来到肇庆学院图书共享平台',
+	            // (string | mandatory) the text inside the notification
+	            text: '上次登录时间：'+new Date(),
+	            // (string | optional) the image to display on the left
+	            image: '/static/assets/img/ui-sam.jpg',
+	            // (bool | optional) if you want it to fade out on its own or just sit there
+	            sticky: false,
+	            // (int | optional) the time you want it to be alive for before fading out
+	            time: 4000,
+	            // (string | optional) the class name you want to apply to that specific message
+	            class_name: 'my-sticky-class'
+	        });
+	
+	        return false;
+	    });
+		</script>-->
+    <script src="../../statics/js/commons/common.js"></script>
+  	<script src="../../statics/js/vue.js"></script>
+  	<script src="../../statics/js/admin/index.js"></script>
+  </body>
+</html>

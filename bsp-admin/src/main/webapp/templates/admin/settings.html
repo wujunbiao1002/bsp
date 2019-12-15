@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="../../statics/js/plugins/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../../statics/layui/css/layui.css">
+
+
+    <!--<script src="../../statics/js/vue.js"></script>-->
+    <!--<script src="../../statics/js/vue-resource-1.3.4.js"></script>-->
+</head>
+<body style="height: 720px; width: 1100px;">
+<br>
+<div id="settingApp">
+    <div class="row">
+        <div class="col-xs-8">
+            <label for="a1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;借出人超时未同意天数:</label>
+            <input type="number" id="a1" ><br><br>
+            <label for="a2"> 借出人超时未将图书送到运营点的天数:</label>
+            <input type="number" id="a2" ><br><br>
+            <label for="a3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;借阅者超时未将图书取走的天数:</label>
+            <input type="number" id="a3" ><br><br>
+            <label for="a4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;借出人超时未将图书取回的天数:</label>
+            <input type="number" id="a4" ><br>
+        </div>
+        <div class="col-xs-4"><br><br>
+            <input type="button" value="保存" onclick="update()"  class="btn  btn-primary" style="width: 100px; height: 50px">
+        </div>
+    </div>
+</div>
+<script src="../../statics/js/jquery-3.3.1.js"></script>
+<!--<script src="../../statics/layui/layui.js"></script>-->
+<script src="../../statics/layui/layer.js"></script>
+<!--<script src="../../static/js/vue.js"></script>-->
+<!--<script src="../../statics/js/admin/userPage.js"></script>-->
+</body>
+
+<script>
+    window.onload = read();
+
+    function read() {
+        $.ajax({
+            type: 'get',
+            url: '/setting/getOverTime.do',//请求数据的地址
+            dataType: "json",        //返回数据形式为json
+            success: function (result) {
+                //请求成功时执行该函数内容，result即为服务器返回的json对象
+                $('#a1').val(result.overtime_agree_apply);
+                $('#a2').val(result.overtime_bring_to_transfer_station);
+                $('#a3').val(result.overtime_take_from_transfer_station);
+                $('#a4').val(result.overtime_take_back_from_transfer_station);
+            }
+        })
+    }
+
+    function update() {
+        // layer.alert("保存成功");
+        $.ajax({
+            type: 'post',
+            url: '/setting/updateOverTime.do',//请求数据的地址
+            data:{overtime_agree_apply:$('#a1').val(),
+                overtime_bring_to_transfer_station:$('#a2').val(),
+                overtime_take_from_transfer_station:$('#a3').val(),
+                overtime_take_back_from_transfer_station:$('#a4').val(),
+            },
+            dataType: "json",        //返回数据形式为json
+            success: function (result) {
+                alert("保存成功")
+                //询问框
+            }
+        })
+        alert("保存成功")
+    }
+</script>
+</html>

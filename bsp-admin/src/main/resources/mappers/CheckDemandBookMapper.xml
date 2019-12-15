@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bsp.dao.CheckDemandBookMapper" >
+  <resultMap id="BaseResultMap" type="com.bsp.entity.CheckDemandBook" >
+    <id column="cdb_id" property="cdbId" jdbcType="INTEGER" />
+    <result column="cdb_name" property="cdbName" jdbcType="VARCHAR" />
+    <result column="cdb_author" property="cdbAuthor" jdbcType="VARCHAR" />
+    <result column="cdb_publishing" property="cdbPublishing" jdbcType="VARCHAR" />
+    <result column="isbn" property="isbn" jdbcType="VARCHAR" />
+    <result column="cdb_duration" property="cdbDuration" jdbcType="INTEGER" />
+    <result column="cdb_number" property="cdbNumber" jdbcType="INTEGER" />
+    <result column="image_path" property="imagePath" jdbcType="VARCHAR" />
+    <result column="cdb_comment" property="cdbComment" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="cdb_status" property="cdbStatus" jdbcType="TINYINT" />
+    <result column="failure_cause" property="failureCause" jdbcType="VARCHAR" />
+    <association property="secondaryClassification" column="sc_id" javaType="SecondaryClassification" select="com.bsp.dao.SecondaryClassificationMapper.selectByPrimaryKey" />
+    <association property="user" column="uuid" javaType="User" select="com.bsp.dao.UserMapper.selectByPrimaryKey" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cdb_id, cdb_name, cdb_author, cdb_publishing, isbn, cdb_duration, cdb_number, image_path, 
+    cdb_comment, phone, cdb_status, failure_cause, sc_id, uuid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from check_demand_book
+    where cdb_id = #{cdbId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from check_demand_book
+    where cdb_id = #{cdbId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bsp.entity.CheckDemandBook" >
+    insert into check_demand_book (cdb_id, cdb_name, cdb_author, 
+      cdb_publishing, isbn, cdb_duration, 
+      cdb_number, image_path, cdb_comment, 
+      phone, cdb_status, failure_cause, 
+      sc_id, uuid)
+    values (#{cdbId,jdbcType=INTEGER}, #{cdbName,jdbcType=VARCHAR}, #{cdbAuthor,jdbcType=VARCHAR}, 
+      #{cdbPublishing,jdbcType=VARCHAR}, #{isbn,jdbcType=VARCHAR}, #{cdbDuration,jdbcType=INTEGER}, 
+      #{cdbNumber,jdbcType=INTEGER}, #{imagePath,jdbcType=VARCHAR}, #{cdbComment,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{cdbStatus,jdbcType=TINYINT}, #{failureCause,jdbcType=VARCHAR}, 
+      #{secondaryClassification.scId,jdbcType=INTEGER}, #{user.uuid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bsp.entity.CheckDemandBook" >
+    insert into check_demand_book
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cdbId != null" >
+        cdb_id,
+      </if>
+      <if test="cdbName != null" >
+        cdb_name,
+      </if>
+      <if test="cdbAuthor != null" >
+        cdb_author,
+      </if>
+      <if test="cdbPublishing != null" >
+        cdb_publishing,
+      </if>
+      <if test="isbn != null" >
+        isbn,
+      </if>
+      <if test="cdbDuration != null" >
+        cdb_duration,
+      </if>
+      <if test="cdbNumber != null" >
+        cdb_number,
+      </if>
+      <if test="imagePath != null" >
+        image_path,
+      </if>
+      <if test="cdbComment != null" >
+        cdb_comment,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="cdbStatus != null" >
+        cdb_status,
+      </if>
+      <if test="failureCause != null" >
+        failure_cause,
+      </if>
+      <if test="secondaryClassification.scId != null" >
+        sc_id,
+      </if>
+      <if test="user.uuid != null" >
+        uuid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cdbId != null" >
+        #{cdbId,jdbcType=INTEGER},
+      </if>
+      <if test="cdbName != null" >
+        #{cdbName,jdbcType=VARCHAR},
+      </if>
+      <if test="cdbAuthor != null" >
+        #{cdbAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="cdbPublishing != null" >
+        #{cdbPublishing,jdbcType=VARCHAR},
+      </if>
+      <if test="isbn != null" >
+        #{isbn,jdbcType=VARCHAR},
+      </if>
+      <if test="cdbDuration != null" >
+        #{cdbDuration,jdbcType=INTEGER},
+      </if>
+      <if test="cdbNumber != null" >
+        #{cdbNumber,jdbcType=INTEGER},
+      </if>
+      <if test="imagePath != null" >
+        #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="cdbComment != null" >
+        #{cdbComment,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="cdbStatus != null" >
+        #{cdbStatus,jdbcType=TINYINT},
+      </if>
+      <if test="failureCause != null" >
+        #{failureCause,jdbcType=VARCHAR},
+      </if>
+      <if test="secondaryClassification.scId != null" >
+        #{secondaryClassification.scId,jdbcType=INTEGER},
+      </if>
+      <if test="user.uuid != null" >
+        #{user.uuid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bsp.entity.CheckDemandBook" >
+    update check_demand_book
+    <set >
+      <if test="cdbName != null" >
+        cdb_name = #{cdbName,jdbcType=VARCHAR},
+      </if>
+      <if test="cdbAuthor != null" >
+        cdb_author = #{cdbAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="cdbPublishing != null" >
+        cdb_publishing = #{cdbPublishing,jdbcType=VARCHAR},
+      </if>
+      <if test="isbn != null" >
+        isbn = #{isbn,jdbcType=VARCHAR},
+      </if>
+      <if test="cdbDuration != null" >
+        cdb_duration = #{cdbDuration,jdbcType=INTEGER},
+      </if>
+      <if test="cdbNumber != null" >
+        cdb_number = #{cdbNumber,jdbcType=INTEGER},
+      </if>
+      <if test="imagePath != null" >
+        image_path = #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="cdbComment != null" >
+        cdb_comment = #{cdbComment,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="cdbStatus != null" >
+        cdb_status = #{cdbStatus,jdbcType=TINYINT},
+      </if>
+      <if test="failureCause != null" >
+        failure_cause = #{failureCause,jdbcType=VARCHAR},
+      </if>
+      <if test="secondaryClassification.scId != null" >
+        sc_id = #{secondaryClassification.scId,jdbcType=INTEGER},
+      </if>
+      <if test="user.uuid != null" >
+        uuid = #{user.uuid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cdb_id = #{cdbId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bsp.entity.CheckDemandBook" >
+    update check_demand_book
+    set cdb_name = #{cdbName,jdbcType=VARCHAR},
+      cdb_author = #{cdbAuthor,jdbcType=VARCHAR},
+      cdb_publishing = #{cdbPublishing,jdbcType=VARCHAR},
+      isbn = #{isbn,jdbcType=VARCHAR},
+      cdb_duration = #{cdbDuration,jdbcType=INTEGER},
+      cdb_number = #{cdbNumber,jdbcType=INTEGER},
+      image_path = #{imagePath,jdbcType=VARCHAR},
+      cdb_comment = #{cdbComment,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      cdb_status = #{cdbStatus,jdbcType=TINYINT},
+      failure_cause = #{failureCause,jdbcType=VARCHAR},
+      sc_id = #{secondaryClassification.scId,jdbcType=INTEGER},
+      uuid = #{user.uuid,jdbcType=VARCHAR}
+    where cdb_id = #{cdbId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,138 @@
+/* modal view */
+.modal { z-index: 13000 }
+#productModal .modal-dialog {
+  margin: 8% auto;
+  max-width: 100%;
+  min-height: 300px;
+  transition: all 0.5s ease 0s;
+  width: 870px;
+}
+#productModal button.close {
+  border: 1px solid #ddd;
+  height: 30px;
+  line-height: 30px;
+  opacity: 1;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  transition: all 0.3s ease 0s;
+  width: 30px;
+  z-index: 2;
+}
+.close > span {
+  position: relative;
+  top: -3px;
+}
+#productModal button.close:hover{border-color:#FE4847;color:#FE4847}
+.modal-header {
+  border-bottom: 1px solid #e5e5e5;
+  padding: 0;
+}
+.modal-body {
+  overflow: hidden;
+}
+.modal-body .modal-img {
+  width: 40%;
+  float: left;
+}
+.modal-img a{}
+.modal-pro-content {
+  float: right;
+  padding-left: 25px;
+  width: 60%;
+}
+.modal-pro-content h3 {
+  margin-bottom: 5px;
+}
+.modal-pro-content h3 a {
+  font-size: 26px;
+}
+.modal-pro-content > p {
+  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+  margin-top: 20px;
+  padding: 20px 0;
+}
+.modal-pro-content .pro-rating {
+  display: inline-block;
+  float: left;
+  margin-bottom: 10px;
+  margin-right: 15px;
+}
+.modal-pro-content > span {
+  display: inline-block;
+  float: left;
+}
+.modal-pro-content .pro-rating i{}
+.modal-pro-content .price {
+  clear: both;
+  display: block;
+  float: none;
+}
+.modal-pro-content > form {
+  overflow: hidden;
+}
+.modal-content {
+  border-radius: 0;
+}
+.modal-pro-content input {
+  border: 1px solid #ddd;
+  float: left;
+  height: 40px;
+  text-align: center;
+  width: 75px;
+}
+.modal-pro-content button {
+  background: #2c2c2c;
+  border: medium none;
+  color: #fff;
+  float: left;
+  font-weight: 700;
+  height: 40px;
+  margin-left: 15px;
+  padding: 0 40px;
+  text-transform: uppercase;
+  transition: all 0.3s ease 0s;
+}
+.modal-pro-content button:hover {
+  background: #ffae00 none repeat scroll 0 0;
+}
+.posted_in a,.tagged_as a {
+  color: #ffae00;
+}
+.social > a {
+  border: 1px solid #ffae00;
+  color: #ffae00;
+  display: inline-block;
+  height: 30px;
+  line-height: 28px;
+  margin-right: 5px;
+  text-align: center;
+  width: 30px;
+}
+.social > a:hover{background:#ffae00;color:#fff}
+.product_meta {
+  clear: both;
+  display: block;
+  font-size: 13px;
+  line-height: 1;
+  margin: 20px 0 0;
+  overflow: hidden;
+  padding: 0;
+  padding: 15px 0;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+.modal-pro-content .social {
+  overflow: hidden;
+  margin-top: 20px;
+}
+.modal-img img {
+  width: 100%;
+}
+.price .old {
+  font-size: 14px;
+  font-weight: 600;
+  margin-left: 9px;
+  text-decoration: line-through;
+}

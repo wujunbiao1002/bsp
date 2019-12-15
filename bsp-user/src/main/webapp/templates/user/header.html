@@ -1,0 +1,78 @@
+<!-- header start -->
+<header v-cloak id="header-app" class="header-pos">
+    <div class="header-area header-middle">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2 col-sm-3 col-xs-12">
+                    <div class="logo">
+                        <a href="/"><img src="../../statics/assets/img/logo/logo.jpg" alt="" /></a>
+                    </div>
+                </div>
+                <div class="col-md-10 col-sm-9 col-xs-12 text-right xs-center">
+                    <div class="main-menu display-inline hidden-sm hidden-xs">
+                        <nav>
+                            <ul>
+                                <li><a href="/">首页</a></li>
+                                <li><a href="/p/repository">图书检索</a></li>
+                                <li v-show="login"><a href="/p/borrowed">借阅记录</a></li>
+                                <li v-show="login"><a href="/p/lended">借出记录</a></li>
+                                <li v-show="login"><a href="/p/my_share">共享图书</a></li>
+                                <li v-show="login"><a href="/p/my_share2">需求图书</a></li>
+                                <li v-show="login"><a href="/p/message_center">消息<span v-show="msgNum"  id="msgNum" class="superscript">{{msgNum}}</span></a></li>
+                                <li v-show="!login"><a href="/login">登录</a></li>
+                                <li v-show="!login"><a href="/p/register">注册账号</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="search-block-top display-inline">
+                        <div class="icon-search"></div>
+                        <div class="toogle-content">
+                            <form id="searchbox">
+                                <input v-model="search" type="text" placeholder="搜索" />
+                                <button type="button" @click="doSearch" class="button-search"></button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="setting-menu display-inline">
+                        <div class="icon-nav current"></div>
+                        <ul class="content-nav toogle-content">
+                            <li class="currencies-block-top">
+                                <!--<div class="current"><b>My Account</b></div>-->
+                                <ul>
+                                    <li v-show="login"><a href="/p/user_center">账户资料</a></li>
+                                    <li @click="logout"  v-show="login"><a href="javascript:;">退出登录</a></li>
+                                    <li v-show="!login"><a href="/login">登录</a></li>
+                                    <li v-show="!login"><a href="/p/register">注册账号</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mobile-menu-area visible-sm visible-xs">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mobile-menu">
+                        <nav id="mobile-menu-active">
+                            <ul>
+                                <li><a href="/">首页</a></li>
+                                <li><a href="/p/repository">图书检索</a></li>
+                                <li v-show="login"><a href="/p/borrowed">借阅记录</a></li>
+                                <li v-show="login"><a href="/p/lended">借出记录</a></li>
+                                <li v-show="login"><a href="/p/my_share">共享图书</a></li>
+                                <li v-show="login"><a href="/p/my_share2">需求图书</a></li>
+                                <li v-show="login"><a href="/p/message_center">消息<span v-show="msgNum" id="msgNum" class="mobile-superscript">{{msgNum}}</span></a></li>
+                                <li v-show="!login"><a href="/login">登录</a></li>
+                                <li v-show="!login"><a href="/p/register">注册账号</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- header end -->
