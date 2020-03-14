@@ -52,7 +52,7 @@
 		<!--指定Maven用什么编码来呈现站点的HTML文件 -->
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<shiro.version>1.3.2</shiro.version>
+		<shiro.version>1.5.1</shiro.version>
 		<ehcahce.version>2.10.4</ehcahce.version>
 		<google-collections.version>1.0</google-collections.version>
 
